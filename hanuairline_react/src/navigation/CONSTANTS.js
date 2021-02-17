@@ -1,0 +1,7 @@
+export const HOME = '/'
+export const TICKET = '/ticket'
+export const PROMOTION = '/promotion'
+export const CONTACT = '/contact'
+export const SIGNIN = '/login'
+export const SIGNUP = '/register'
+export const ADMIN = '/admin'
