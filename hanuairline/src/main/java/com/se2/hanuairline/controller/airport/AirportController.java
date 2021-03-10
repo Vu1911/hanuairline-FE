@@ -2,9 +2,11 @@ package com.se2.hanuairline.controller.airport;
 
 import com.se2.hanuairline.model.airport.Airport;
 import com.se2.hanuairline.repository.airport.AirportRepository;
+import com.se2.hanuairline.service.airport.AirportService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,13 +21,27 @@ public class AirportController {
     @Autowired
     private AirportRepository airportRepository;
 
+    @Autowired
+    private AirportService airportService;
+
     private static final Logger logger = LoggerFactory.getLogger(com.se2.hanuairline.controller.user.UserController.class);
 
     @GetMapping("/getAll")
-    public List<Airport> getAllAirport(@RequestParam(required = false) String tittle) {
-        List<Airport> airports = airportRepository.findAll();
+    public ResponseEntity<?> getAllAirport(@RequestParam(required = false) Long id,
+                                       @RequestParam(required = false, defaultValue = "_") String name,
+                                       @RequestParam(required = false, defaultValue = "_") String country,
+                                       @RequestParam(required = false, defaultValue = "_") String city,
+                                       @RequestParam(required = false, defaultValue = "_") String status,
+                                       @RequestParam(defaultValue = "0") int page,
+                                       @RequestParam(defaultValue = "10") int size,
+                                       @RequestParam(defaultValue = "id,desc") String[] sort) {
+        try {
+            Page<Airport> airportData = airportService.findAll(id, name, country, city, status, page, size, sort);
 
-        return airports;
+            return new ResponseEntity<>(airportData, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/getById/{id}")
