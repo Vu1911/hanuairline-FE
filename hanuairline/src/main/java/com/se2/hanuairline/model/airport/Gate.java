@@ -24,10 +24,10 @@ public class Gate implements Cloneable {
     @NotNull
     private String name;
 
-    @OneToMany(mappedBy = "departure_gate")
+    @OneToMany(mappedBy = "departureGate")
     private Set<Flight> flight1;
 
-    @OneToMany(mappedBy = "arrival_gate")
+    @OneToMany(mappedBy = "arrivalGate")
     private Set<Flight> flight2;
 
     public Gate(Long id, Airport airport, @NotBlank @NotNull String name) {

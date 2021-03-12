@@ -23,13 +23,11 @@ public class FlightPayload {
 
     private Long airway_id;
 
-    @NotBlank
     @NotNull
     private Instant departure_time;
 
     private Long departure_gate_id;
 
-    @NotBlank
     @NotNull
     private Instant arrival_time;
 

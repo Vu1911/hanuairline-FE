@@ -4,6 +4,7 @@ import com.se2.hanuairline.model.aircraft.Aircraft;
 import com.se2.hanuairline.model.airport.AirportStatus;
 import com.se2.hanuairline.model.airport.Airway;
 import com.se2.hanuairline.model.airport.Gate;
+import com.sun.istack.Nullable;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
 import javax.persistence.*;
@@ -25,25 +26,23 @@ public class Flight implements Cloneable {
     @JoinColumn(name = "aircraft_id")
     private Aircraft aircraft;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "airway_id")
     private Airway airway;
 
-    @NotBlank
     @NotNull
-    private Instant departure_time;
+    private Instant departureTime;
 
     @ManyToOne
     @JoinColumn(name = "departure_gate_id")
-    private Gate departure_gate;
+    private Gate departureGate;
 
-    @NotBlank
     @NotNull
-    private Instant arrival_time;
+    private Instant arrivalTime;
 
     @ManyToOne
     @JoinColumn(name = "arrival_gate_id")
-    private Gate arrival_gate;
+    private Gate arrivalGate;
 
     @NotBlank
     @NotNull
@@ -54,30 +53,23 @@ public class Flight implements Cloneable {
 
     @ManyToOne
     @JoinColumn(name = "discount_id")
+    @Nullable
     private DiscountEvent discount;
 
-    public Flight(Long id, Aircraft aircraft, Airway airway, @NotBlank @NotNull Instant departure_time, Gate departure_gate, @NotBlank @NotNull Instant arrival_time, Gate arrival_gate, @NotBlank @NotNull FlightStatus status, Set<Ticket> ticket, DiscountEvent discount) {
+    public Flight(Long id, Aircraft aircraft, Airway airway, @NotNull Instant departureTime, Gate departureGate, @NotNull Instant arrivalTime, Gate arrivalGate, @NotBlank @NotNull FlightStatus status, Set<Ticket> ticket, DiscountEvent discount) {
         this.id = id;
         this.aircraft = aircraft;
         this.airway = airway;
-        this.departure_time = departure_time;
-        this.departure_gate = departure_gate;
-        this.arrival_time = arrival_time;
-        this.arrival_gate = arrival_gate;
+        this.departureTime = departureTime;
+        this.departureGate = departureGate;
+        this.arrivalTime = arrivalTime;
+        this.arrivalGate = arrivalGate;
         this.status = status.toString();
         this.ticket = ticket;
         this.discount = discount;
     }
 
-    public DiscountEvent getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(DiscountEvent discount) {
-        this.discount = discount;
-    }
-
-    public Flight() {
+    public Flight(){
 
     }
 
@@ -105,36 +97,36 @@ public class Flight implements Cloneable {
         this.airway = airway;
     }
 
-    public Instant getDeparture_time() {
-        return departure_time;
+    public Instant getDepartureTime() {
+        return departureTime;
     }
 
-    public void setDeparture_time(Instant departure_time) {
-        this.departure_time = departure_time;
+    public void setDepartureTime(Instant departureTime) {
+        this.departureTime = departureTime;
     }
 
-    public Gate getDeparture_gate() {
-        return departure_gate;
+    public Gate getDepartureGate() {
+        return departureGate;
     }
 
-    public void setDeparture_gate(Gate departure_gate) {
-        this.departure_gate = departure_gate;
+    public void setDepartureGate(Gate departureGate) {
+        this.departureGate = departureGate;
     }
 
-    public Instant getArrival_time() {
-        return arrival_time;
+    public Instant getArrivalTime() {
+        return arrivalTime;
     }
 
-    public void setArrival_time(Instant arrival_time) {
-        this.arrival_time = arrival_time;
+    public void setArrivalTime(Instant arrivalTime) {
+        this.arrivalTime = arrivalTime;
     }
 
-    public Gate getArrival_gate() {
-        return arrival_gate;
+    public Gate getArrivalGate() {
+        return arrivalGate;
     }
 
-    public void setArrival_gate(Gate arrival_gate) {
-        this.arrival_gate = arrival_gate;
+    public void setArrivalGate(Gate arrivalGate) {
+        this.arrivalGate = arrivalGate;
     }
 
     public String getStatus() {
@@ -143,6 +135,22 @@ public class Flight implements Cloneable {
 
     public void setStatus(FlightStatus status) {
         this.status = status.toString();
+    }
+
+    public Set<Ticket> getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Set<Ticket> ticket) {
+        this.ticket = ticket;
+    }
+
+    public DiscountEvent getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(DiscountEvent discount) {
+        this.discount = discount;
     }
 
     @Override

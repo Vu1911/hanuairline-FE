@@ -5,14 +5,14 @@ import com.se2.hanuairline.model.airport.Airway;
 import com.se2.hanuairline.payload.airport.AirwayPayload;
 import com.se2.hanuairline.repository.airport.AirwayRepository;
 import com.se2.hanuairline.repository.airport.AirportRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.se2.hanuairline.service.airport.AirwayService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,16 +26,15 @@ public class AirwayController {
     @Autowired
     private AirportRepository airportRepository;
 
-    private static final Logger logger = LoggerFactory.getLogger(com.se2.hanuairline.controller.user.UserController.class);
+    @Autowired
+    private AirwayService airwayService;
 
     @GetMapping("/getAll")
-    public ResponseEntity<?> getAllAirway(@RequestParam(required = false) String tittle) {
+    public ResponseEntity<?> getAllAirway(@RequestParam(defaultValue = "0") int page,
+                                          @RequestParam(defaultValue = "10") int size,
+                                          @RequestParam(defaultValue = "id,desc") String[] sort) {
         try {
-            List<Airway> airways = airwayRepository.findAll();
-
-            if(!(airways.size()>0)){
-                return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-            }
+            Page<Airway> airways = airwayService.findAll(page, size, sort);
 
             return new ResponseEntity<>(airways, HttpStatus.OK);
         } catch (Exception e){
@@ -44,20 +43,15 @@ public class AirwayController {
     }
 
     @GetMapping("/getById/{id}")
-    public ResponseEntity<?> getAirwayById(@PathVariable("id") long id) {
-        Optional<Airway> airwayData = airwayRepository.findById(id);
+    public ResponseEntity<?> getAirwayByArrivalAndDepartureName(@RequestParam(required = true) String arrivalAirport,
+                                                                @RequestParam(required = true) String departureAirport) {
+        Airway airwayData = airwayService.findByArrivalAirportAndDepartureAirport(arrivalAirport, departureAirport);
 
-        if (airwayData.isPresent()) {
-            Airway airway = airwayData.get();
-
-            return new ResponseEntity<>(airway, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(airwayData, HttpStatus.OK);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createAirway(@RequestBody AirwayPayload request) {
+    public ResponseEntity<?> createAirway(@Valid @RequestBody AirwayPayload request) {
         try {
             Optional<Airport> arrival_airportData = airportRepository.findById(request.getArrival_airport_id());
             Optional<Airport> departure_airportData = airportRepository.findById(request.getDeparture_airport_id());
@@ -74,9 +68,9 @@ public class AirwayController {
             Airport arrival_airport = arrival_airportData.get();
             Airport departure_airport = departure_airportData.get();
 
-            airway.setArrival_airport(arrival_airport);
-            airway.setDeparture_airport(departure_airport);
-            airway.setDistance_km(request.getDistance_km());
+            airway.setArrivalAirport(arrival_airport);
+            airway.setDepartureAirport(departure_airport);
+            airway.setDistanceKm(request.getDistance_km());
 
             Airway _airway = airwayRepository.save(airway);
 
@@ -110,9 +104,9 @@ public class AirwayController {
             Airport arrival_airport = arrival_airportData.get();
             Airport departure_airport = departure_airportData.get();
 
-            airway.setArrival_airport(arrival_airport);
-            airway.setDeparture_airport(departure_airport);
-            airway.setDistance_km(request.getDistance_km());
+            airway.setArrivalAirport(arrival_airport);
+            airway.setDepartureAirport(departure_airport);
+            airway.setDistanceKm(request.getDistance_km());
 
             Airway _airway = airwayRepository.save(airway);
 

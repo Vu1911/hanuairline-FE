@@ -16,7 +16,6 @@ public class AirwayPayload {
 
     private Long arrival_airport_id;
 
-    @NotBlank
     @NotNull
     private int distance_km;
 

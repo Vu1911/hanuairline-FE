@@ -19,8 +19,6 @@ public class TravelClassController {
     @Autowired
     private TravelClassRepository travelClassRepository;
 
-    private static final Logger logger = LoggerFactory.getLogger(com.se2.hanuairline.controller.user.UserController.class);
-
     @GetMapping("/getAll")
     public List<TravelClass> getAllTravelClass() {
         List<TravelClass> travelClasss = travelClassRepository.findAll();

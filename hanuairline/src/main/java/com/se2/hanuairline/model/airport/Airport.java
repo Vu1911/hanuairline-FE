@@ -36,7 +36,6 @@ public class Airport implements Cloneable {
     @Size(max = 40)
     private String city;
 
-    @NotBlank
     @NotNull
     private int capacity;
 
@@ -47,19 +46,21 @@ public class Airport implements Cloneable {
     @OneToMany(mappedBy = "airport")
     private Set<Gate> gates;
 
-    @OneToMany(mappedBy = "departure_airport")
+    @OneToMany(mappedBy = "departureAirport")
     private Set<Airway> airway1;
 
-    @OneToMany(mappedBy = "arrival_airport")
+    @OneToMany(mappedBy = "arrivalAirport")
     private Set<Airway> airway2;
 
-    public Airport(Long id, @NotBlank @NotNull @Size(max = 40) String name, @NotBlank @NotNull @Size(max = 40) String country, @NotBlank @Size(max = 40) String city, @NotBlank @NotNull int capacity, @NotBlank @NotNull AirportStatus status) {
+    public Airport(Long id, @NotBlank @NotNull @Size(max = 40) String name, @NotBlank @NotNull @Size(max = 40) String country, @NotBlank @Size(max = 40) String city, @NotBlank @NotNull int capacity, @NotBlank @NotNull String status) {
+        AirportStatus st = AirportStatus.valueOf(status);
+        System.out.println(status);
         this.id = id;
         this.name = name;
         this.country = country;
         this.city = city;
         this.capacity = capacity;
-        this.status = status.toString();
+        this.status = st.toString();
     }
 
     public Airport() {
@@ -117,5 +118,20 @@ public class Airport implements Cloneable {
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    @Override
+    public String toString() {
+        return "Airport{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", capacity=" + capacity +
+                ", status='" + status + '\'' +
+                ", gates=" + gates +
+                ", airway1=" + airway1 +
+                ", airway2=" + airway2 +
+                '}';
     }
 }

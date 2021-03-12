@@ -54,7 +54,6 @@ public class AircraftTypeController {
         }
     }
 
-    @Secured("ROLE_ADMIN")
     @PostMapping("/create")
     public ResponseEntity<?> createAircraftType(@Valid @RequestBody AircraftType aircraftType) {
         try {

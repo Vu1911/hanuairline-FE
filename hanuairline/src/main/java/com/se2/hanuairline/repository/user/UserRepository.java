@@ -1,6 +1,8 @@
 package com.se2.hanuairline.repository.user;
 
 import com.se2.hanuairline.model.user.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -20,4 +22,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Boolean existsByUsername(String username);
 
     Boolean existsByEmail(String email);
+
+    Page<User> findAll (Pageable pageable);
+
+    Page<User> findById (Long id, Pageable pageable);
+
+    Page<User> findByEmailContainingAndUsernameContainingAndNameContaining(String email, String username, String name, Pageable pageable);
 }

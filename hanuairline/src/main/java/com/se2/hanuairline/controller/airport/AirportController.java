@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,7 +57,7 @@ public class AirportController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createAirport(@RequestBody Airport airport) {
+    public ResponseEntity<?> createAirport(@Valid @RequestBody Airport airport) {
         try {
             Airport clone = (Airport) airport.clone();
             Airport _airport = airportRepository

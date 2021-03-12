@@ -19,27 +19,26 @@ public class Airway implements Cloneable {
 
     @ManyToOne
     @JoinColumn(name = "departure_airport_id")
-    private Airport departure_airport;
+    private Airport departureAirport;
 
     @ManyToOne
     @JoinColumn(name = "arrival_airport_id")
-    private Airport arrival_airport;
+    private Airport arrivalAirport;
 
-    @NotBlank
     @NotNull
-    private int distance_km;
+    private int distanceKm;
 
-    @OneToMany(mappedBy = "airway")
-    private Set<Flight> flight;
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "airway")
+//    private Set<Flight> flight;
 
     @OneToMany(mappedBy = "airway")
     private Set<PriceByClass> priceByClasses;
 
     public Airway(Long id, Airport departure_airport, Airport arrival_airport, @NotBlank @NotNull int distance_km) {
         this.id = id;
-        this.departure_airport = departure_airport;
-        this.arrival_airport = arrival_airport;
-        this.distance_km = distance_km;
+        this.departureAirport = departure_airport;
+        this.arrivalAirport = arrival_airport;
+        this.distanceKm = distance_km;
     }
 
     public Airway() {
@@ -54,28 +53,44 @@ public class Airway implements Cloneable {
         this.id = id;
     }
 
-    public Airport getDeparture_airport() {
-        return departure_airport;
+    public Airport getDepartureAirport() {
+        return departureAirport;
     }
 
-    public void setDeparture_airport(Airport departure_airport) {
-        this.departure_airport = departure_airport;
+    public void setDepartureAirport(Airport departureAirport) {
+        this.departureAirport = departureAirport;
     }
 
-    public Airport getArrival_airport() {
-        return arrival_airport;
+    public Airport getArrivalAirport() {
+        return arrivalAirport;
     }
 
-    public void setArrival_airport(Airport arrival_airport) {
-        this.arrival_airport = arrival_airport;
+    public void setArrivalAirport(Airport arrivalAirport) {
+        this.arrivalAirport = arrivalAirport;
     }
 
-    public int getDistance_km() {
-        return distance_km;
+    public int getDistanceKm() {
+        return distanceKm;
     }
 
-    public void setDistance_km(int distance_km) {
-        this.distance_km = distance_km;
+    public void setDistanceKm(int distanceKm) {
+        this.distanceKm = distanceKm;
+    }
+
+//    public Set<Flight> getFlight() {
+//        return flight;
+//    }
+//
+//    public void setFlight(Set<Flight> flight) {
+//        this.flight = flight;
+//    }
+
+    public Set<PriceByClass> getPriceByClasses() {
+        return priceByClasses;
+    }
+
+    public void setPriceByClasses(Set<PriceByClass> priceByClasses) {
+        this.priceByClasses = priceByClasses;
     }
 
     @Override

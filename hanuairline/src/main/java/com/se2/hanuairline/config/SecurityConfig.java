@@ -99,8 +99,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
                 .and()
+                .anonymous()
+                .and()
                 .authorizeRequests()
-                .antMatchers("/",
+                .antMatchers("/**",
                         "/error",
                         "/favicon.ico",
                         "/**/*.png",

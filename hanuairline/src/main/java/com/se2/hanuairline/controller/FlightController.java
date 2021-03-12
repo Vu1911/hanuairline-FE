@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -78,13 +79,25 @@ public class FlightController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createFlight(@RequestBody FlightPayload request) {
+    public ResponseEntity<?> createFlight(@Valid @RequestBody FlightPayload request) {
         try {
             Optional<Aircraft> aircraftData = aircraftRepository.findById(request.getAircraft_id());
             Optional<Airway> airwayData = airwayRepository.findById(request.getAirway_id());
             Optional<Gate> arrival_gateData = gateRepository.findById(request.getArrival_gate_id());
             Optional<Gate> departure_gateData = gateRepository.findById(request.getDeparture_gate_id());
-            Optional<DiscountEvent> discountEventData = discountEventRepository.findById(request.getDiscount_id());
+
+            Flight flight = new Flight();
+
+            if (request.getDiscount_id() != null){
+                Optional<DiscountEvent> discountEventData = discountEventRepository.findById(request.getDiscount_id());
+                if(!discountEventData.isPresent()){
+                    return new ResponseEntity<>("FlightController: discount event not found", HttpStatus.NOT_FOUND);
+                }
+
+                flight.setDiscount(discountEventData.get());
+            } else {
+                flight.setDiscount(null);
+            }
 
             if(!aircraftData.isPresent()){
                 return new ResponseEntity<>("FlightController: aircraft not found", HttpStatus.NOT_FOUND);
@@ -102,23 +115,18 @@ public class FlightController {
                 return new ResponseEntity<>("FlightController: departure gate not found", HttpStatus.NOT_FOUND);
             }
 
-            if(!discountEventData.isPresent()){
-                return new ResponseEntity<>("FlightController: discount event not found", HttpStatus.NOT_FOUND);
-            }
-
             if(!aircraftData.isPresent()){
                 return new ResponseEntity<>("FlightController: aircraft not found", HttpStatus.NOT_FOUND);
             }
 
-            Flight flight = new Flight();
+
             flight.setAircraft(aircraftData.get());
             flight.setAirway(airwayData.get());
-            flight.setArrival_gate(arrival_gateData.get());
-            flight.setArrival_time(request.getArrival_time());
-            flight.setDeparture_gate(departure_gateData.get());
-            flight.setDeparture_time(request.getDeparture_time());
+            flight.setArrivalGate(arrival_gateData.get());
+            flight.setArrivalTime(request.getArrival_time());
+            flight.setDepartureGate(departure_gateData.get());
+            flight.setDepartureTime(request.getDeparture_time());
             flight.setStatus(FlightStatus.valueOf(request.getStatus()));
-            flight.setDiscount(discountEventData.get());
 
             Flight _flight = flightRepository.save(flight);
 
@@ -169,10 +177,10 @@ public class FlightController {
             Flight flight = flightData.get();
             flight.setAircraft(aircraftData.get());
             flight.setAirway(airwayData.get());
-            flight.setArrival_gate(arrival_gateData.get());
-            flight.setArrival_time(request.getArrival_time());
-            flight.setDeparture_gate(departure_gateData.get());
-            flight.setDeparture_time(request.getDeparture_time());
+            flight.setArrivalGate(arrival_gateData.get());
+            flight.setArrivalTime(request.getArrival_time());
+            flight.setDepartureGate(departure_gateData.get());
+            flight.setDepartureTime(request.getDeparture_time());
             flight.setStatus(FlightStatus.valueOf(request.getStatus()));
             flight.setDiscount(discountEventData.get());
 
