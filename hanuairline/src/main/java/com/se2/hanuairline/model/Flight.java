@@ -56,7 +56,7 @@ public class Flight implements Cloneable {
     @Nullable
     private DiscountEvent discount;
 
-    public Flight(Long id, Aircraft aircraft, Airway airway, @NotNull Instant departureTime, Gate departureGate, @NotNull Instant arrivalTime, Gate arrivalGate, @NotBlank @NotNull FlightStatus status, Set<Ticket> ticket, DiscountEvent discount) {
+    public Flight(Long id, Aircraft aircraft, Airway airway, @NotNull Instant departureTime, Gate departureGate, @NotNull Instant arrivalTime, Gate arrivalGate, @NotBlank @NotNull FlightStatus status, DiscountEvent discount) {
         this.id = id;
         this.aircraft = aircraft;
         this.airway = airway;
@@ -65,7 +65,6 @@ public class Flight implements Cloneable {
         this.arrivalTime = arrivalTime;
         this.arrivalGate = arrivalGate;
         this.status = status.toString();
-        this.ticket = ticket;
         this.discount = discount;
     }
 
@@ -135,14 +134,6 @@ public class Flight implements Cloneable {
 
     public void setStatus(FlightStatus status) {
         this.status = status.toString();
-    }
-
-    public Set<Ticket> getTicket() {
-        return ticket;
-    }
-
-    public void setTicket(Set<Ticket> ticket) {
-        this.ticket = ticket;
     }
 
     public DiscountEvent getDiscount() {

@@ -28,8 +28,8 @@ public class Airway implements Cloneable {
     @NotNull
     private int distanceKm;
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "airway")
-//    private Set<Flight> flight;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "airway")
+    private Set<Flight> flight;
 
     @OneToMany(mappedBy = "airway")
     private Set<PriceByClass> priceByClasses;
@@ -75,22 +75,6 @@ public class Airway implements Cloneable {
 
     public void setDistanceKm(int distanceKm) {
         this.distanceKm = distanceKm;
-    }
-
-//    public Set<Flight> getFlight() {
-//        return flight;
-//    }
-//
-//    public void setFlight(Set<Flight> flight) {
-//        this.flight = flight;
-//    }
-
-    public Set<PriceByClass> getPriceByClasses() {
-        return priceByClasses;
-    }
-
-    public void setPriceByClasses(Set<PriceByClass> priceByClasses) {
-        this.priceByClasses = priceByClasses;
     }
 
     @Override
