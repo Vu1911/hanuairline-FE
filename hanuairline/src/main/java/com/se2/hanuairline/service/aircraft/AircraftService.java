@@ -12,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -82,4 +84,19 @@ public class AircraftService {
 
         return null;
     }
+
+    // get all the airplanes which are available at a specific date
+    // first get all the flights that are distinct of the aircraft_id and sort it from the latest departure date
+    public List<Aircraft> getAvailableAircraftByTime(Instant time){
+        List<Aircraft> availableAircraft = null;
+
+        return availableAircraft;
+    }
+
+    // check aircraft availability
+    //
+    public boolean checkAircraftByTimeAndAirport(Aircraft plane, Instant time, Long airport_id){
+        return false;
+    }
+
 }

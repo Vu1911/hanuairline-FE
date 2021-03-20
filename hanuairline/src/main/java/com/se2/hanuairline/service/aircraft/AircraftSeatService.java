@@ -75,4 +75,6 @@ public class AircraftSeatService {
         return true;
     }
 
+    // get all the available seats that has not been booked for an aircraft with a specific flight
+
 }

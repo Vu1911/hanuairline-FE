@@ -11,4 +11,8 @@ import java.util.Optional;
 @Repository
 public interface FlightRepository extends JpaRepository<Flight, Long> {
     List<Optional<Flight>> findByAircraft_id(Long aircraft_id);
+
+    // Find all flight distinct by aircraft sorted by the latest departure time
+    // has the arrival time less than the given time and the arrival airport id is the given airport
+    List<Flight> find();
 }

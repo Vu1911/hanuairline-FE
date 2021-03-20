@@ -9,11 +9,12 @@ import com.se2.hanuairline.model.user.User;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.Instant;
 
 @Entity
 @Table(name = "ticket")
-public class Ticket implements Cloneable {
+public class Ticket implements Cloneable, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +34,7 @@ public class Ticket implements Cloneable {
 
     @NotBlank
     @NotNull
-    private String status; ;
+    private String status;
 
     @NotBlank
     @NotNull
