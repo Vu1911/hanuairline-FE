@@ -14,5 +14,5 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
 
     // Find all flight distinct by aircraft sorted by the latest departure time
     // has the arrival time less than the given time and the arrival airport id is the given airport
-    List<Flight> find();
+//    List<Flight> find();
 }

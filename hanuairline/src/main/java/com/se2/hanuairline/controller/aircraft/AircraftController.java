@@ -6,7 +6,6 @@ import com.se2.hanuairline.model.aircraft.AircraftType;
 import com.se2.hanuairline.payload.aircraft.AircraftPayload;
 import com.se2.hanuairline.repository.aircraft.AircraftRepository;
 import com.se2.hanuairline.repository.aircraft.AircraftTypeRepository;
-import com.se2.hanuairline.repository.FlightRepository;
 import com.se2.hanuairline.service.aircraft.AircraftService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
