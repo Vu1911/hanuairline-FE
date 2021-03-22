@@ -4,6 +4,7 @@ import com.se2.hanuairline.model.aircraft.Aircraft;
 import com.se2.hanuairline.model.airport.AirportStatus;
 import com.se2.hanuairline.model.airport.Airway;
 import com.se2.hanuairline.model.airport.Gate;
+import com.se2.hanuairline.model.audit.DateAudit;
 import com.sun.istack.Nullable;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
@@ -16,7 +17,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "flight")
-public class Flight implements Cloneable {
+public class Flight extends DateAudit implements Cloneable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,7 +47,8 @@ public class Flight implements Cloneable {
 
     @NotBlank
     @NotNull
-    private String status; ;
+    @Enumerated(EnumType.STRING)
+    private FlightStatus status; ;
 
     @OneToMany(mappedBy = "flight")
     private Set<Ticket> ticket;
@@ -64,7 +66,7 @@ public class Flight implements Cloneable {
         this.departureGate = departureGate;
         this.arrivalTime = arrivalTime;
         this.arrivalGate = arrivalGate;
-        this.status = status.toString();
+        this.status = status;
         this.discount = discount;
     }
 
@@ -128,12 +130,12 @@ public class Flight implements Cloneable {
         this.arrivalGate = arrivalGate;
     }
 
-    public String getStatus() {
+    public FlightStatus getStatus() {
         return status;
     }
 
     public void setStatus(FlightStatus status) {
-        this.status = status.toString();
+        this.status = status;
     }
 
     public DiscountEvent getDiscount() {
@@ -142,6 +144,14 @@ public class Flight implements Cloneable {
 
     public void setDiscount(DiscountEvent discount) {
         this.discount = discount;
+    }
+
+    public Set<Ticket> getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Set<Ticket> ticket) {
+        this.ticket = ticket;
     }
 
     @Override

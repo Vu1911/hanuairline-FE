@@ -1,6 +1,7 @@
 package com.se2.hanuairline.model.aircraft;
 
 import com.se2.hanuairline.model.Flight;
+import com.se2.hanuairline.model.audit.DateAudit;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -14,7 +15,7 @@ import java.util.Set;
                 "name"
         }),
 })
-public class Aircraft implements Cloneable{
+public class Aircraft extends DateAudit implements Cloneable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +32,8 @@ public class Aircraft implements Cloneable{
 
     @NotBlank
     @NotNull
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private AircraftStatus status;
 
     @OneToMany(mappedBy = "aircraft")
     private Set<AircraftSeat> aircraftSeatSet;
@@ -39,14 +41,13 @@ public class Aircraft implements Cloneable{
     @OneToMany(mappedBy = "aircraft")
     private Set<Flight> flights;
 
-    public Aircraft(Long id, @NotBlank @Size(max = 40) String name, @NotBlank @NotNull AircraftType aircrafttype, @NotBlank @NotNull AircraftStatus status) {
-        this.id = id;
+    public Aircraft(@NotBlank @Size(max = 40) String name, @NotNull AircraftType aircraftType, @NotBlank @NotNull AircraftStatus status) {
         this.name = name;
-        this.aircraftType = aircrafttype;
-        this.status = status.toString();
+        this.aircraftType = aircraftType;
+        this.status = status;
     }
 
-    public Aircraft() {
+    public Aircraft(){
 
     }
 
@@ -70,16 +71,32 @@ public class Aircraft implements Cloneable{
         return aircraftType;
     }
 
-    public void setAircraftType(AircraftType aircrafttype) {
-        this.aircraftType = aircrafttype;
+    public void setAircraftType(AircraftType aircraftType) {
+        this.aircraftType = aircraftType;
     }
 
-    public String getStatus() {
+    public AircraftStatus getStatus() {
         return status;
     }
 
     public void setStatus(AircraftStatus status) {
-        this.status = status.toString();
+        this.status = status;
+    }
+
+    public Set<AircraftSeat> getAircraftSeatSet() {
+        return aircraftSeatSet;
+    }
+
+    public void setAircraftSeatSet(Set<AircraftSeat> aircraftSeatSet) {
+        this.aircraftSeatSet = aircraftSeatSet;
+    }
+
+    public Set<Flight> getFlights() {
+        return flights;
+    }
+
+    public void setFlights(Set<Flight> flights) {
+        this.flights = flights;
     }
 
     @Override

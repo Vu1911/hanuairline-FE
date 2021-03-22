@@ -35,4 +35,13 @@ public class SeatsByClassService {
         return seatsByClassData;
     }
 
+    public boolean deleteByAircraftType (AircraftType aircraftType){
+        try{
+            seatsByClassRepository.deleteAllByAircraftType(aircraftType);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
+
 }

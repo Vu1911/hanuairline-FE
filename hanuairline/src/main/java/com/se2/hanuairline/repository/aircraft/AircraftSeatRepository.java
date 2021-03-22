@@ -1,5 +1,6 @@
 package com.se2.hanuairline.repository.aircraft;
 
+import com.se2.hanuairline.model.aircraft.Aircraft;
 import com.se2.hanuairline.model.aircraft.AircraftSeat;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,4 +16,6 @@ public interface AircraftSeatRepository extends JpaRepository<AircraftSeat, Long
     Optional<AircraftSeat> findById (String id);
 
     Page<AircraftSeat> findByAircraft_IdOrTravelClass_Id(Long aircraft_id, Long travelclass_id, Pageable pageable);
+
+    void deleteAircraftSeatsByAircraft(Aircraft aircraft);
 }

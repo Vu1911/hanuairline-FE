@@ -2,6 +2,7 @@ package com.se2.hanuairline.model.airport;
 
 import com.se2.hanuairline.model.Flight;
 import com.se2.hanuairline.model.PriceByClass;
+import com.se2.hanuairline.model.audit.DateAudit;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -11,7 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "airway")
-public class Airway implements Cloneable {
+public class Airway extends DateAudit implements Cloneable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,7 +1,9 @@
 package com.se2.hanuairline.controller.aircraft;
 
+import com.se2.hanuairline.model.aircraft.Aircraft;
 import com.se2.hanuairline.model.aircraft.AircraftType;
 import com.se2.hanuairline.repository.aircraft.AircraftTypeRepository;
+import com.se2.hanuairline.service.aircraft.AircraftTypeService;
 import com.se2.hanuairline.util.PaginationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,19 +23,16 @@ import java.util.Optional;
 public class AircraftTypeController {
 
     @Autowired
-    private AircraftTypeRepository aircraftTypeRepository;
-
-    private static final Logger logger = LoggerFactory.getLogger(com.se2.hanuairline.controller.user.UserController.class);
+    private AircraftTypeService aircraftTypeService;
 
     @GetMapping("/getAll")
     public ResponseEntity<?> getAllAircraftType(@RequestParam(defaultValue = "0") int page,
                                                 @RequestParam(defaultValue = "10") int size,
                                                 @RequestParam(defaultValue = "id,desc") String[] sort) {
         try {
-            Pageable pagingSort = PaginationUtils.pagingSort(page, size, sort);
-            Page<AircraftType> aircraftTypes = aircraftTypeRepository.findAll(pagingSort);
+            Page<AircraftType> aircraftTypes = aircraftTypeService.getAllAircraftType(page, size, sort);
 
-            if(aircraftTypes.isEmpty()){
+            if(aircraftTypes == null){
                 return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
             }
 
@@ -45,24 +44,23 @@ public class AircraftTypeController {
 
     @GetMapping("/getById/{id}")
     public ResponseEntity<?> getAircraftTypeById(@PathVariable("id") long id) {
-        Optional<AircraftType> aircraftType = aircraftTypeRepository.findById(id);
+        AircraftType aircraftType = aircraftTypeService.getAircraftTypeById(id);
 
-        if (aircraftType.isPresent()) {
-            return new ResponseEntity<>(aircraftType.get(), HttpStatus.OK);
+        if (aircraftType != null) {
+            return new ResponseEntity<>(aircraftType, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("No aircraft type found!", HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping("/create")
     public ResponseEntity<?> createAircraftType(@Valid @RequestBody AircraftType aircraftType) {
-        try {
-            AircraftType clone = (AircraftType) aircraftType.clone();
-            AircraftType _aircraftType = aircraftTypeRepository
-                    .save(clone);
-            return new ResponseEntity<>(_aircraftType, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        AircraftType newAircraftType = aircraftTypeService.creatAircraftType(aircraftType);
+
+        if(newAircraftType != null){
+            return new ResponseEntity<>(newAircraftType, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
