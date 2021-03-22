@@ -27,21 +27,16 @@ public class SeatsByClass implements Cloneable {
 
     @NotBlank
     @NotNull
-    private int seatsPerRow;
+    private int rowQuantity;
 
-    @NotBlank
-    @NotNull
-    private int rows_quantity;
-
-    public SeatsByClass(TravelClass travelClass, AircraftType aircraftType, @NotBlank @NotNull int quantity, @NotBlank @NotNull int seatsPerRow, @NotBlank @NotNull int rows_quantity) {
+    public SeatsByClass(TravelClass travelClass, AircraftType aircraftType, @NotBlank @NotNull int quantity, @NotBlank @NotNull int rowQuantity) {
         this.travelClass = travelClass;
         this.aircraftType = aircraftType;
         this.quantity = quantity;
-        this.seatsPerRow = seatsPerRow;
-        this.rows_quantity = rows_quantity;
+        this.rowQuantity = rowQuantity;
     }
 
-    public SeatsByClass (){
+    public SeatsByClass(){
 
     }
 
@@ -77,20 +72,12 @@ public class SeatsByClass implements Cloneable {
         this.quantity = quantity;
     }
 
-    public int getSeatsPerRow() {
-        return seatsPerRow;
+    public int getRowQuantity() {
+        return rowQuantity;
     }
 
-    public void setSeatsPerRow(int seatsPerRow) {
-        this.seatsPerRow = seatsPerRow;
-    }
-
-    public int getRows_quantity() {
-        return rows_quantity;
-    }
-
-    public void setRows_quantity(int rows_quantity) {
-        this.rows_quantity = rows_quantity;
+    public void setRowQuantity(int rowQuantity) {
+        this.rowQuantity = rowQuantity;
     }
 
     @Override

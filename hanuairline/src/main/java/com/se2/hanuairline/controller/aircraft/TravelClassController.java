@@ -38,7 +38,7 @@ public class TravelClassController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createtravelClass(@RequestBody TravelClass travelClass) {
+    public ResponseEntity<?> createTravelClass(@RequestBody TravelClass travelClass) {
         try {
             TravelClass clone = (TravelClass) travelClass.clone();
             TravelClass _travelClass = travelClassRepository

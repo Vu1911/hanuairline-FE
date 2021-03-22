@@ -59,7 +59,7 @@ public class AircraftTypeService {
     // Can not update an aircraftType
 
     // Can only delete when there is no aircraft belongs to this aircraft type
-    public boolean deleteAircraftType(long id, AircraftType request){
+    public boolean deleteAircraftType(long id){
         Optional<AircraftType> aircraftTypeData = aircraftTypeRepository.findById(id);
 
         if(!aircraftTypeData.isPresent()){
