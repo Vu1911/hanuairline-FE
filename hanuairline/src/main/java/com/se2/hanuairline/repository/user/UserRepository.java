@@ -30,7 +30,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Page<User> findByEmailContainingAndUsernameContainingAndNameContaining(String email, String username, String name, Pageable pageable);
 
-    List<User> findByUsernameRole
+//    List<User> findByUsernameRole
 
     List<User> findAll();
 
