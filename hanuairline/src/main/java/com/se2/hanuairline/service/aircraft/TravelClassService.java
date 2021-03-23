@@ -21,6 +21,8 @@ public class TravelClassService {
 
     }
 
+
+
     public TravelClass getRecordById (Long id) throws InvalidInputValueException {
 
         Optional<TravelClass> travelClassData = travelClassRepository.findById(id);
@@ -33,7 +35,7 @@ public class TravelClassService {
         }
     }
     public TravelClass createNewRecord( TravelClassPayload travelClassPayload) throws InvalidInputValueException {
-        if(!checkExisted(travelClassPayload.getName(),travelClassPayload.getDesciption())){
+        if(!checkExisted(travelClassPayload.getId(),travelClassPayload.getName(),travelClassPayload.getDesciption())){
             throw new InvalidInputValueException("Invalid input to create :record trùng lặp ");
 
         }
@@ -48,13 +50,43 @@ public class TravelClassService {
     }
 
     public TravelClass updateARecordById(Long id,TravelClassPayload travelClassPayload) throws InvalidInputValueException {
-        getRecordById(id); // STOP HERE
+        if(!checkExisted(id,travelClassPayload.getName(),travelClassPayload.getDesciption())){
+            throw new InvalidInputValueException("Can't update with id: "+id);
+        }
+
+        TravelClass travelClass = this.getRecordById(id);
+        travelClass.setName(travelClassPayload.getName());
+        travelClass.setDescription(travelClassPayload.getDesciption());
+        TravelClass result= travelClassRepository.save(travelClass);
+        return result;
     };
 
-    private boolean checkExisted(String name, String description){
-        Optional<TravelClass> data = travelClassRepository.findByNameAndDescription(name,description);
-            return data.isPresent();
+    public TravelClass deleteARecordById(Long id) throws InvalidInputValueException {
+        if(!checkExisted(id)){
+            throw new InvalidInputValueException("Not exist travel class with id :"+id);
+        }
+        TravelClass result= getRecordById(id);
+        travelClassRepository.deleteById(id);
+        return result;
     }
+
+    private boolean checkExisted(Long id ,String name, String description){
+       Optional<TravelClass> checkRecord= travelClassRepository.findById(id);
+        Optional<TravelClass> data = travelClassRepository.findByNameAndDescription(name,description);
+        if(checkRecord.isPresent()||data.isPresent()){
+            return true;
+        }
+            return false;
+    }
+    private boolean checkExisted(Long id){
+        Optional<TravelClass> checkRecord= travelClassRepository.findById(id);
+        if(checkRecord.isPresent()){
+            return true;
+        }
+        return false;
+    }
+
+
 
 
 

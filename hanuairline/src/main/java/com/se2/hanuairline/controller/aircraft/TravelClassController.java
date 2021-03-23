@@ -25,7 +25,7 @@ public class TravelClassController {
     @GetMapping("/getAll")
     public ResponseEntity<?> getAllTravelClass() {
         List<TravelClass> travelClass = travelClassService.getAllTravelClass();
-        return new ResponseEntity<>(travelClass,HttpStatus.OK);
+        return new ResponseEntity<>(travelClass, HttpStatus.OK);
     }
 
     @GetMapping("/getById/{id}")
@@ -34,53 +34,51 @@ public class TravelClassController {
         TravelClass travelClass;
         try {
             travelClass = travelClassService.getRecordById(id);
-            responseEntity = new ResponseEntity<>(travelClass,HttpStatus.OK);
+            responseEntity = new ResponseEntity<>(travelClass, HttpStatus.OK);
         } catch (InvalidInputValueException e) {
-            responseEntity = new ResponseEntity<>(e.getMessage(),HttpStatus.EXPECTATION_FAILED);
+            responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
         }
-    return responseEntity;
+        return responseEntity;
 
     }
 
     @PostMapping("/create")
     public ResponseEntity<?> createTravelClass(@RequestBody TravelClassPayload travelClassPayload) {
         ResponseEntity<?> responseEntity;
-        TravelClass result ;
+        TravelClass result;
         try {
-          result =  travelClassService.createNewRecord(travelClassPayload);
-          responseEntity = new ResponseEntity<>(result,HttpStatus.OK);
+            result = travelClassService.createNewRecord(travelClassPayload);
+            responseEntity = new ResponseEntity<>(result, HttpStatus.OK);
         } catch (InvalidInputValueException e) {
-            responseEntity = new ResponseEntity<>(e.getMessage(),HttpStatus.EXPECTATION_FAILED);
+            responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
         }
-    return responseEntity;
+        return responseEntity;
     }
 
     @PutMapping("/updateById/{id}")
     public ResponseEntity<?> updateTravelClass(@PathVariable("id") long id, @RequestBody TravelClassPayload travelClassPayload) {
-//        Optional<TravelClass> travelClassData = travelClassService.findById(id);
-
-//        if (travelClassData.isPresent()) {
-//            try {
-//                TravelClass _travelClass = (TravelClass) travelClass.clone();
-//
-//                return new ResponseEntity<>(travelClassRepository.save(_travelClass), HttpStatus.OK);
-//            } catch (Exception e){
-//                return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-//            }
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-        travelClassService
+        ResponseEntity<?> responseEntity;
+        TravelClass result;
+        try {
+            result = travelClassService.updateARecordById(id, travelClassPayload);
+            responseEntity = new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (InvalidInputValueException e) {
+            responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
+        }
+        return responseEntity;
     }
+
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteTravelClass(@PathVariable("id") long id) {
+    public ResponseEntity<?> deleteATravelClass(@PathVariable("id") long id) {
+        ResponseEntity<?> responseEntity;
+        TravelClass result ;
         try {
-            travelClassRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            result= travelClassService.deleteARecordById(id);
+            responseEntity = new ResponseEntity<>(result,HttpStatus.OK);
+        } catch (InvalidInputValueException e) {
+            responseEntity = new ResponseEntity<>(e.getMessage(),HttpStatus.EXPECTATION_FAILED);
         }
+        return responseEntity;
     }
-
 }
