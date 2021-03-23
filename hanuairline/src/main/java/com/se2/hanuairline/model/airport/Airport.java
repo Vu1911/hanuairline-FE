@@ -4,6 +4,7 @@ import com.se2.hanuairline.model.aircraft.AircraftSeat;
 import com.se2.hanuairline.model.aircraft.AircraftStatus;
 import com.se2.hanuairline.model.aircraft.AircraftType;
 import com.se2.hanuairline.model.audit.DateAudit;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -23,6 +24,7 @@ public class Airport extends DateAudit implements Cloneable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NaturalId
     @NotBlank
     @NotNull
     @Size(max = 40)

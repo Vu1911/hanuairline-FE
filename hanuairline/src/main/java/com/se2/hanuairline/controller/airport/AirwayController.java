@@ -53,26 +53,11 @@ public class AirwayController {
     @PostMapping("/create")
     public ResponseEntity<?> createAirway(@Valid @RequestBody AirwayPayload request) {
         try {
-            Optional<Airport> arrival_airportData = airportRepository.findById(request.getArrival_airport_id());
-            Optional<Airport> departure_airportData = airportRepository.findById(request.getDeparture_airport_id());
+            Airway _airway = airwayService.createAirway(request);
 
-            if(!arrival_airportData.isPresent()){
-                return new ResponseEntity<>("AirwayController: arrival airport not found", HttpStatus.NOT_FOUND);
+            if(_airway == null){
+                return new ResponseEntity<>("Duplicate airway or wrong airport id. Maybe logic error", HttpStatus.NOT_FOUND);
             }
-
-            if(!departure_airportData.isPresent()){
-                return new ResponseEntity<>("AirwayController: departure airport not found", HttpStatus.NOT_FOUND);
-            }
-
-            Airway airway = new Airway();
-            Airport arrival_airport = arrival_airportData.get();
-            Airport departure_airport = departure_airportData.get();
-
-            airway.setArrivalAirport(arrival_airport);
-            airway.setDepartureAirport(departure_airport);
-            airway.setDistanceKm(request.getDistance_km());
-
-            Airway _airway = airwayRepository.save(airway);
 
             return new ResponseEntity<>(_airway, HttpStatus.CREATED);
 
@@ -81,48 +66,16 @@ public class AirwayController {
         }
     }
 
-    @PutMapping("/updateById/{id}")
-    public ResponseEntity<?> updateAirway(@PathVariable("id") long id, @RequestBody AirwayPayload request) {
-        try {
-            Optional<Airway> airwayData = airwayRepository.findById(request.getId());
-            Optional<Airport> arrival_airportData = airportRepository.findById(request.getArrival_airport_id());
-            Optional<Airport> departure_airportData = airportRepository.findById(request.getDeparture_airport_id());
-
-            if(!airwayData.isPresent()){
-                return new ResponseEntity<>("AirwayController: airway not found", HttpStatus.NOT_FOUND);
-            }
-
-            if(!arrival_airportData.isPresent()){
-                return new ResponseEntity<>("AirwayController: arrival airport not found", HttpStatus.NOT_FOUND);
-            }
-
-            if(!departure_airportData.isPresent()){
-                return new ResponseEntity<>("AirwayController: departure airport not found", HttpStatus.NOT_FOUND);
-            }
-
-            Airway airway = airwayData.get();
-            Airport arrival_airport = arrival_airportData.get();
-            Airport departure_airport = departure_airportData.get();
-
-            airway.setArrivalAirport(arrival_airport);
-            airway.setDepartureAirport(departure_airport);
-            airway.setDistanceKm(request.getDistance_km());
-
-            Airway _airway = airwayRepository.save(airway);
-
-            return new ResponseEntity<>(_airway, HttpStatus.OK);
-
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+    // can not update the airway
 
     // Becareful !!!!!
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteAirway(@PathVariable("id") long id) {
+    public ResponseEntity<?> deleteAirway(@PathVariable("id") long id) {
         try {
-            airwayRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            if(airwayService.deleteAirway(id)){
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            return new ResponseEntity<>("wrong airway id or airway being deployed. Maybe logic error", HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

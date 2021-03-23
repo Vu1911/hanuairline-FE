@@ -78,6 +78,22 @@ public class Airway extends DateAudit implements Cloneable {
         this.distanceKm = distanceKm;
     }
 
+    public Set<Flight> getFlight() {
+        return flight;
+    }
+
+    public void setFlight(Set<Flight> flight) {
+        this.flight = flight;
+    }
+
+    public Set<PriceByClass> getPriceByClasses() {
+        return priceByClasses;
+    }
+
+    public void setPriceByClasses(Set<PriceByClass> priceByClasses) {
+        this.priceByClasses = priceByClasses;
+    }
+
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();

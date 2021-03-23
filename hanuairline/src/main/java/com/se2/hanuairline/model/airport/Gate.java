@@ -65,6 +65,22 @@ public class Gate extends DateAudit implements Cloneable {
         this.name = name;
     }
 
+    public Set<Flight> getFlight1() {
+        return flight1;
+    }
+
+    public void setFlight1(Set<Flight> flight1) {
+        this.flight1 = flight1;
+    }
+
+    public Set<Flight> getFlight2() {
+        return flight2;
+    }
+
+    public void setFlight2(Set<Flight> flight2) {
+        this.flight2 = flight2;
+    }
+
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
