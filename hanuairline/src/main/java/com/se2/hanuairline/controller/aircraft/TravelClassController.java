@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,7 +44,7 @@ public class TravelClassController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createTravelClass(@RequestBody TravelClassPayload travelClassPayload) {
+    public ResponseEntity<?> createTravelClass(@Valid @RequestBody TravelClassPayload travelClassPayload) {
         ResponseEntity<?> responseEntity;
         TravelClass result;
         try {

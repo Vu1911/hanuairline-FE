@@ -49,6 +49,7 @@ public class AirportService {
         airport.setName(request.getName());
         airport.setCity(request.getCity());
         airport.setCountry(request.getCountry());
+        airport.setCapacity(request.getCapacity());
         airport.setStatus(AirportStatus.OPENED);
         Airport _airport = airportRepository.save(airport);
         return _airport;
