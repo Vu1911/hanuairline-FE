@@ -12,11 +12,11 @@ public class TravelClassPayload {
     @NotBlank
     @Size(max = 1000)
     @Column(length = 1000)
-    private String desciption;
+    private String description;
 
-    public TravelClassPayload(@NotBlank @Size(max = 40) String name, @NotBlank @Size(max = 1000) String desciption) {
+    public TravelClassPayload(@NotBlank @Size(max = 40) String name, @NotBlank @Size(max = 1000) String description) {
         this.name = name;
-        this.desciption = desciption;
+        this.description = description;
     }
 
     public String getName() {
@@ -27,11 +27,11 @@ public class TravelClassPayload {
         this.name = name;
     }
 
-    public String getDesciption() {
-        return desciption;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesciption(String desciption) {
-        this.desciption = desciption;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
