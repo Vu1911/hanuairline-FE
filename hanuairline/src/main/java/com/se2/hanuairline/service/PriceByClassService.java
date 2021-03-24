@@ -37,29 +37,40 @@ public class PriceByClassService {
         return getList;
     }
     // get one by travelclass id and airway id -> finished
-    public PriceByClass getOnePriceByClass(Long travelClassId, Long airwayId){
+    public PriceByClass getOnePriceByClass(Long travelClassId, Long airwayId) throws InvalidInputValueException {
         Optional<PriceByClass> priceByClassData = priceByClassRepository.findByTravelClass_IdAndAirway_Id(travelClassId,airwayId);
-        return priceByClassData.get();
+        if(priceByClassData.isPresent()){
+            return priceByClassData.get();
+        }
+        else {
+            throw new InvalidInputValueException("Not exist recordsss");
+        }
     }
 
     // update one
-    public PriceByClass updateARecord(PriceByClassPayload priceByClassPayload) throws InvalidInputValueException {
+    public PriceByClass updateARecord(Long id,PriceByClassPayload priceByClassPayload) throws InvalidInputValueException {
 //        PriceByClass priceByClass = priceByClassRepository.getOne(priceByClassDTO.getId());
-        // kiem tra co travelClass khong
+
         Optional<TravelClass> travelClass=travelClassRepository.findById(priceByClassPayload.getTravelclass_id());
         Optional<Airway> airway=airwayRepository.findById(priceByClassPayload.getTravelclass_id());
-
-        if (!checkExisted(priceByClassPayload)){
-              throw new InvalidInputValueException("record does not exist "+"id :"+priceByClassPayload.getId()
-              );
-         }
-         if(!travelClass.isPresent()){
-             throw new InvalidInputValueException("Invalid update travelclass id"+priceByClassPayload.getTravelclass_id());
-         }
-        if(!airway.isPresent()){
-            throw new InvalidInputValueException("Invalid update airway id"+priceByClassPayload.getTravelclass_id());
+        // check id valid
+        if(!checkExisted(id)){
+            throw new InvalidInputValueException("id does not exist to update: "+id);
         }
-        Optional<PriceByClass> priceByClassData = priceByClassRepository.findById(priceByClassPayload.getId());
+        // check row
+        if (checkExisted(priceByClassPayload.getTravelclass_id(),priceByClassPayload.getAirway_id())){
+              throw new InvalidInputValueException("A record with these data already exist ");
+
+         }
+        // check update data
+         if(!travelClass.isPresent()){
+             throw new InvalidInputValueException("Invalid update travelclass_id"+priceByClassPayload.getTravelclass_id());
+         }
+
+        if(!airway.isPresent()){
+            throw new InvalidInputValueException("Invalid update airway_id"+priceByClassPayload.getAirway_id());
+        }
+        Optional<PriceByClass> priceByClassData = priceByClassRepository.findById(id);
         PriceByClass priceByClass = priceByClassData.get();
         priceByClass.setTravelClass(travelClass.get());
         priceByClass.setAirway(airway.get());
@@ -68,15 +79,20 @@ public class PriceByClassService {
         return result;
 
     }
-    // update many
+    // chưa check API
     public List<PriceByClass> updateManyRecords(List<PriceByClassPayload> priceByClassPayloads) throws InvalidInputValueException {
        List<PriceByClass> updatedRecords = new ArrayList<>();
         String fails = "";
 
         for(PriceByClassPayload item : priceByClassPayloads ){
         try {
-            PriceByClass priceByClass = updateARecord(item);
-            updatedRecords.add(priceByClass);
+         Optional<PriceByClass> priceByClass=   priceByClassRepository.findByTravelClass_IdAndAirway_Id(item.getTravelclass_id(),item.getAirway_id());
+            if(!priceByClass.isPresent()){
+                throw new InvalidInputValueException("Can't update price with these data: " +item.getAirway_id()+" "+item.getTravelclass_id()+" "+item.getPrice());
+            }
+         PriceByClass updatePriceByClass = priceByClass.get();
+         PriceByClass updatedPriceByClass = updateARecord(updatePriceByClass.getId(),item);// HeRE------------
+            updatedRecords.add(updatedPriceByClass);
         }catch(Exception e){
             fails.concat(" "+e.getMessage());
             continue;
@@ -93,18 +109,28 @@ public class PriceByClassService {
 
     public PriceByClass insertNewRecord(PriceByClassPayload priceByClassPayload) throws InvalidInputValueException {
         // find if existed ? -> id used
-        if(this.checkExisted(priceByClassPayload)) throw new InvalidInputValueException("Invalid PriceByClass_id or duplicated a record content");
+        if(this.checkExisted(priceByClassPayload.getTravelclass_id(),priceByClassPayload.getAirway_id())) throw new InvalidInputValueException("Invalid PriceByClass_id or duplicated a record content");
         Long travelClassId = priceByClassPayload.getTravelclass_id();
-        Long aircraftId = priceByClassPayload.getAirway_id();
+        Long airwayId = priceByClassPayload.getAirway_id();
+        // check if existed before
+        Optional<Airway> airway = airwayRepository.findById(airwayId);
+       Optional<TravelClass> travelClass = travelClassRepository.findById(travelClassId);
+       if((!airway.isPresent())){
+           throw new InvalidInputValueException("Can't find airway with id :" +airwayId);
+       }
+       if(!travelClass.isPresent()){
+           throw new InvalidInputValueException("Can't find travelClass with id :" +travelClassId);
+
+       }
         PriceByClass priceByClass = new PriceByClass();
-        priceByClass.getAirway().setId(aircraftId);
-        priceByClass.getTravelClass().setId(aircraftId);
-        priceByClass.setPrice(priceByClass.getPrice());
-        priceByClass= priceByClassRepository.save(priceByClass);
+        priceByClass.setAirway(airway.get());
+        priceByClass.setTravelClass(travelClass.get());
+        priceByClass.setPrice(priceByClassPayload.getPrice());
+        PriceByClass updatedPriceByClass= priceByClassRepository.save(priceByClass);
 
 
 
-        return priceByClass;
+        return updatedPriceByClass;
 
     }
 
@@ -129,7 +155,7 @@ public class PriceByClassService {
     return deletedRecords;
 
     }
-
+    //
     public PriceByClass deleteOneRecord(Long id) throws InvalidInputValueException {
         PriceByClass priceByClass;
         Optional<PriceByClass>priceByClassData=priceByClassRepository.findById(id);
@@ -143,14 +169,20 @@ public class PriceByClassService {
         return priceByClass;
     }
      // exist a row
-    private boolean checkExisted(PriceByClassPayload priceByClassPayload){
+    private boolean checkExisted(Long travelClassId,Long airwayId){
         //Optional<TravelClass> travelClassData = travelClassService.findById(priceByClassDT).getTravelClassId);
-       Optional<PriceByClass> idDuplicated= priceByClassRepository.findById(priceByClassPayload.getId());
-     Optional<PriceByClass> duplicatedRecord= priceByClassRepository.findByTravelClass_IdAndAirway_Id(priceByClassPayload.getTravelclass_id(), priceByClassPayload.getAirway_id());
-      return (idDuplicated.isPresent()||duplicatedRecord.isPresent()) ;
+//       Optional<PriceByClass> idDuplicated= priceByClassRepository.findById(priceByClassPayload.getId());
+     Optional<PriceByClass> duplicatedRecord= priceByClassRepository.findByTravelClass_IdAndAirway_Id(travelClassId, airwayId);
+      return (duplicatedRecord.isPresent()) ;
 
 
     }
+
+    private boolean checkExisted(Long id){
+       Optional<PriceByClass> priceByClass = priceByClassRepository.findById(id);
+        return priceByClass.isPresent();
+    }
+
 
 
 }

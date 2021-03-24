@@ -10,10 +10,10 @@ import javax.validation.constraints.NotNull;
 import java.time.Instant;
 
 public class PriceByClassPayload {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+//
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
 
     @NotNull
     private Long travelclass_id;
@@ -23,20 +23,20 @@ public class PriceByClassPayload {
     private int price;
 
     public PriceByClassPayload(Long id, Long travelclass_id, Long airway_id, int price) {
-        this.id = id;
-        System.out.println(this.id);
+//        this.id = id;
+//        System.out.println(this.id);
         this.travelclass_id = travelclass_id;
         this.airway_id = airway_id;
         this.price = price;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+//
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
 
     public Long getTravelclass_id() {
         return travelclass_id;

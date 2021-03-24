@@ -11,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "price_by_class")
@@ -25,6 +26,7 @@ public class PriceByClass extends DateAudit implements Cloneable {
     private TravelClass travelClass;
 
     @ManyToOne
+
     @JoinColumn(name = "airway_id")
     private Airway airway;
 

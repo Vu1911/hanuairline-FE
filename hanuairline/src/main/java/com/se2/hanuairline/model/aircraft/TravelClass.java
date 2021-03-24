@@ -64,15 +64,16 @@ public class TravelClass implements Cloneable {
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
-    public void setDescription(String desciption) {
-        this.description = desciption;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
 }

@@ -35,13 +35,14 @@ public class TravelClassService {
         }
     }
     public TravelClass createNewRecord( TravelClassPayload travelClassPayload) throws InvalidInputValueException {
-        if(!checkExisted(travelClassPayload.getId(),travelClassPayload.getName(),travelClassPayload.getDesciption())){
+        if(checkExisted(travelClassPayload.getName(),travelClassPayload.getDescription())){
             throw new InvalidInputValueException("Invalid input to create :record trùng lặp ");
 
         }
         TravelClass travelClass = new TravelClass();
         travelClass.setName(travelClassPayload.getName());
-        travelClass.setDescription(travelClassPayload.getDesciption());
+        travelClass.setDescription(travelClassPayload.getDescription());
+        System.out.println(travelClass.toString());
 
     TravelClass result =  travelClassRepository.save(travelClass);
 
@@ -50,13 +51,13 @@ public class TravelClassService {
     }
 
     public TravelClass updateARecordById(Long id,TravelClassPayload travelClassPayload) throws InvalidInputValueException {
-        if(!checkExisted(id,travelClassPayload.getName(),travelClassPayload.getDesciption())){
+        if(!checkExisted(travelClassPayload.getName(),travelClassPayload.getDescription())){
             throw new InvalidInputValueException("Can't update with id: "+id);
         }
 
         TravelClass travelClass = this.getRecordById(id);
         travelClass.setName(travelClassPayload.getName());
-        travelClass.setDescription(travelClassPayload.getDesciption());
+        travelClass.setDescription(travelClassPayload.getDescription());
         TravelClass result= travelClassRepository.save(travelClass);
         return result;
     };
@@ -70,10 +71,12 @@ public class TravelClassService {
         return result;
     }
 
-    private boolean checkExisted(Long id ,String name, String description){
-       Optional<TravelClass> checkRecord= travelClassRepository.findById(id);
+    private boolean checkExisted(String name, String description){
+
+       System.out.println("here");
         Optional<TravelClass> data = travelClassRepository.findByNameAndDescription(name,description);
-        if(checkRecord.isPresent()||data.isPresent()){
+        if(data.isPresent()){
+            System.out.println(data.get().toString());
             return true;
         }
             return false;

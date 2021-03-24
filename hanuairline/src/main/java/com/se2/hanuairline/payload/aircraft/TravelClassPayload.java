@@ -10,10 +10,10 @@ import java.util.Set;
 
 public class TravelClassPayload {
 
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+//
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
 
     @NotBlank
     @Size(max = 40)
@@ -22,22 +22,22 @@ public class TravelClassPayload {
     @NotBlank
     @Size(max = 1000)
     @Column(length = 1000)
-    private String desciption;
+    private String description;
 
-    public TravelClassPayload(Long id, @NotBlank @Size(max = 40) String name, @NotBlank @Size(max = 1000) String desciption) {
-        this.id = id;
+    public TravelClassPayload( @NotBlank @Size(max = 40) String name, @NotBlank @Size(max = 1000) String description) {
         this.name = name;
-        this.desciption = desciption;
+        this.description = description;
+
     }
     public TravelClassPayload(){}
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+//
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
 
     public String getName() {
         return name;
@@ -47,11 +47,11 @@ public class TravelClassPayload {
         this.name = name;
     }
 
-    public String getDesciption() {
-        return desciption;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesciption(String desciption) {
-        this.desciption = desciption;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

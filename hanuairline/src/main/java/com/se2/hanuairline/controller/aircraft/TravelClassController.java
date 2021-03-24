@@ -48,10 +48,15 @@ public class TravelClassController {
         ResponseEntity<?> responseEntity;
         TravelClass result;
         try {
+            System.out.println("Inside controller");
             result = travelClassService.createNewRecord(travelClassPayload);
             responseEntity = new ResponseEntity<>(result, HttpStatus.OK);
         } catch (InvalidInputValueException e) {
             responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+            responseEntity = new ResponseEntity<>(ex.getMessage(), HttpStatus.EXPECTATION_FAILED);
+
         }
         return responseEntity;
     }
