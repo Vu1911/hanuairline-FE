@@ -4,6 +4,7 @@ import com.se2.hanuairline.model.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -28,4 +29,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Page<User> findById (Long id, Pageable pageable);
 
     Page<User> findByEmailContainingAndUsernameContainingAndNameContaining(String email, String username, String name, Pageable pageable);
+
+//    List<User> findByUsernameRole
+
+    List<User> findAll();
+
 }

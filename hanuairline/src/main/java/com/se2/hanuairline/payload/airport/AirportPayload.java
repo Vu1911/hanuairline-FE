@@ -37,12 +37,17 @@ public class AirportPayload {
     @NotNull
     private String status; ;
 
+
+
     public AirportPayload(Long id, @NotBlank @NotNull @Size(max = 40) String name, @NotBlank @NotNull @Size(max = 40) String country, @NotBlank @Size(max = 40) String city, @NotBlank @NotNull int capacity, @NotBlank @NotNull AirportStatus status) {
+        System.out.println("In constructor");
         this.id = id;
         this.name = name;
         this.country = country;
         this.city = city;
-        this.capacity = capacity;
+        this.capacity =capacity ;
+        System.out.println(this.capacity);
+
         this.status = status.toString();
     }
 
