@@ -1,5 +1,6 @@
 package com.se2.hanuairline.service.aircraft;
 
+import com.se2.hanuairline.exception.InvalidInputValueException;
 import com.se2.hanuairline.model.aircraft.AircraftType;
 import com.se2.hanuairline.model.aircraft.SeatsByClass;
 import com.se2.hanuairline.model.aircraft.TravelClass;
@@ -52,9 +53,9 @@ public class SeatsByClassService {
         return seatsByClassData.get();
     }
 
-    public SeatsByClass createSeatsByClass(SeatsByClassPayLoad request){
+    public SeatsByClass createSeatsByClass(SeatsByClassPayLoad request) throws InvalidInputValueException {
         AircraftType aircraftTypeData = aircraftTypeService.getAircraftTypeById(request.getAircraftType_id());
-        TravelClass travelClassData = travelClassService.findById(request.getTravelClass_id());
+        TravelClass travelClassData = travelClassService.getRecordById(request.getTravelClass_id());
 
         if(aircraftTypeData == null){
             return null;
@@ -71,10 +72,10 @@ public class SeatsByClassService {
         return _seatsByClass;
     }
 
-    public SeatsByClass updateSeatsByClass(long id, SeatsByClassPayLoad request){
+    public SeatsByClass updateSeatsByClass(long id, SeatsByClassPayLoad request) throws InvalidInputValueException {
         Optional<SeatsByClass> seatsByClassData = seatsByClassRepository.findById(request.getId());
         AircraftType aircraftType = aircraftTypeService.getAircraftTypeById(request.getAircraftType_id());
-        TravelClass travelClass = travelClassService.findById(request.getTravelClass_id());
+        TravelClass travelClass = travelClassService.getRecordById(request.getTravelClass_id());
 
         if(!seatsByClassData.isPresent()){
             return null;

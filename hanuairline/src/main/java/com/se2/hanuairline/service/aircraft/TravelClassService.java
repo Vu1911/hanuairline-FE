@@ -21,8 +21,6 @@ public class TravelClassService {
 
     }
 
-
-
     public TravelClass getRecordById (Long id) throws InvalidInputValueException {
 
         Optional<TravelClass> travelClassData = travelClassRepository.findById(id);
@@ -85,11 +83,4 @@ public class TravelClassService {
         }
         return false;
     }
-
-
-
-
-
-
-
 }
