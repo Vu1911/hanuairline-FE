@@ -30,7 +30,6 @@ public class Aircraft extends DateAudit implements Cloneable{
     @JoinColumn(name = "aircraftType_id")
     private AircraftType aircraftType;
 
-    @NotBlank
     @NotNull
     @Enumerated(EnumType.STRING)
     private AircraftStatus status;

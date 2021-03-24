@@ -2,6 +2,7 @@ package com.se2.hanuairline.controller;
 
 import com.se2.hanuairline.model.DiscountEvent;
 import com.se2.hanuairline.repository.DiscountEventRepository;
+import com.se2.hanuairline.service.DiscountEventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,21 +20,20 @@ public class DiscountEventController {
     @Autowired
     private DiscountEventRepository discountEventRepository;
 
-    private static final Logger logger = LoggerFactory.getLogger(com.se2.hanuairline.controller.user.UserController.class);
+    @Autowired
+    private DiscountEventService discountEventService;
 
     @GetMapping("/getAll")
-    public List<DiscountEvent> getAllDiscountEvent(@RequestParam(required = false) String tittle) {
-        List<DiscountEvent> discountEvents = discountEventRepository.findAll();
-
-        return discountEvents;
+    public ResponseEntity<?> getAllDiscountEvent() {
+        return new ResponseEntity<>(discountEventService.getAllDiscountEvent(), HttpStatus.OK);
     }
 
     @GetMapping("/getById/{id}")
     public ResponseEntity<?> getDiscountEventById(@PathVariable("id") long id) {
-        Optional<DiscountEvent> discountEvent = discountEventRepository.findById(id);
+        DiscountEvent discountEvent = discountEventService.getById(id);
 
-        if (discountEvent.isPresent()) {
-            return new ResponseEntity<>(discountEvent.get(), HttpStatus.OK);
+        if (discountEvent != null) {
+            return new ResponseEntity<>(discountEvent, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

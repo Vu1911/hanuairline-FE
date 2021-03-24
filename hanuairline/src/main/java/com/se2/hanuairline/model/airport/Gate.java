@@ -2,6 +2,7 @@ package com.se2.hanuairline.model.airport;
 
 import com.se2.hanuairline.model.Flight;
 import com.se2.hanuairline.model.audit.DateAudit;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -21,6 +22,7 @@ public class Gate extends DateAudit implements Cloneable {
     @JoinColumn(name = "airport_id")
     private Airport airport;
 
+    @NaturalId
     @NotBlank
     @NotNull
     private String name;

@@ -42,7 +42,6 @@ public class Airport extends DateAudit implements Cloneable {
     @NotNull
     private int capacity;
 
-    @NotBlank
     @NotNull
     @Enumerated(EnumType.STRING)
     private AirportStatus status;

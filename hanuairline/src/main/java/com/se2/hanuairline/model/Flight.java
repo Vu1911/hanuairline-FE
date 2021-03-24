@@ -45,7 +45,6 @@ public class Flight extends DateAudit implements Cloneable {
     @JoinColumn(name = "arrival_gate_id")
     private Gate arrivalGate;
 
-    @NotBlank
     @NotNull
     @Enumerated(EnumType.STRING)
     private FlightStatus status; ;

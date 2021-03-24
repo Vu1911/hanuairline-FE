@@ -38,7 +38,6 @@ public class Ticket extends DateAudit implements Cloneable, Serializable {
     @Enumerated(EnumType.STRING)
     private TicketType type;
 
-    @NotBlank
     @NotNull
     @Enumerated(EnumType.STRING)
     private TicketStatus status;
