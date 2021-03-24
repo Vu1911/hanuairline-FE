@@ -10,6 +10,7 @@ import java.util.Set;
 
 public class TravelClassPayload {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,6 +29,7 @@ public class TravelClassPayload {
         this.name = name;
         this.desciption = desciption;
     }
+    public TravelClassPayload(){}
 
     public Long getId() {
         return id;

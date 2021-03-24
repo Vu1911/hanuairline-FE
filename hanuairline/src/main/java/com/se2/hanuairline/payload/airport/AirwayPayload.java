@@ -12,6 +12,7 @@ public class AirwayPayload {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     private Long departure_airport_id;
 
     private Long arrival_airport_id;
