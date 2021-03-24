@@ -15,10 +15,11 @@ public class PriceByClassPayload {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private Long travelclass_id;
-
+    @NotNull
     private Long airway_id;
-
+    @NotNull
     private int price;
 
     public PriceByClassPayload(Long id, Long travelclass_id, Long airway_id, int price) {
