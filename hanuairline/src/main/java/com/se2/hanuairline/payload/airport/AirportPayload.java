@@ -4,10 +4,7 @@ import com.se2.hanuairline.model.airport.AirportStatus;
 import com.se2.hanuairline.model.airport.Airway;
 import com.se2.hanuairline.model.airport.Gate;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -37,9 +34,8 @@ public class AirportPayload {
     @NotNull
     private int capacity;
 
-    @NotBlank
     @NotNull
-    private AirportStatus status; ;
+    private String status; ;
 
     public AirportPayload(Long id, @NotBlank @NotNull @Size(max = 40) String name, @NotBlank @NotNull @Size(max = 40) String country, @NotBlank @Size(max = 40) String city, @NotBlank @NotNull int capacity, @NotBlank @NotNull AirportStatus status) {
         this.id = id;
@@ -47,7 +43,7 @@ public class AirportPayload {
         this.country = country;
         this.city = city;
         this.capacity = capacity;
-        this.status = status;
+        this.status = status.toString();
     }
 
     public Long getId() {
@@ -90,11 +86,11 @@ public class AirportPayload {
         this.capacity = capacity;
     }
 
-    public AirportStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(AirportStatus status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 }
