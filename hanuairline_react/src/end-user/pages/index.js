@@ -1,0 +1,6 @@
+export {default as HomePage} from './Home/HomePageContainer'
+export {default as ContactPage} from './Contact/ContactPageContainer'
+export {default as PromotionPage} from './Promotion/PromotionPageContainer'
+export {default as TicketPage} from './Ticket/TicketPageContainer'
+export {default as RegisterPage} from './Register/RegisterPageContainer'
+export {default as LoginPage} from './Login/LoginPageContainer'
