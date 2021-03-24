@@ -1,5 +1,7 @@
 package com.se2.hanuairline.model.aircraft;
 
+import com.se2.hanuairline.model.audit.DateAudit;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -7,7 +9,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "aircraftSeat")
-public class AircraftSeat implements Cloneable {
+public class AircraftSeat extends DateAudit implements Cloneable {
 
     @Id
     private String id;

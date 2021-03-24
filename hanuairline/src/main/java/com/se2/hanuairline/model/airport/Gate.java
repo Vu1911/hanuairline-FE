@@ -1,6 +1,8 @@
 package com.se2.hanuairline.model.airport;
 
 import com.se2.hanuairline.model.Flight;
+import com.se2.hanuairline.model.audit.DateAudit;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -10,7 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "gate")
-public class Gate implements Cloneable {
+public class Gate extends DateAudit implements Cloneable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +22,7 @@ public class Gate implements Cloneable {
     @JoinColumn(name = "airport_id")
     private Airport airport;
 
+    @NaturalId
     @NotBlank
     @NotNull
     private String name;
@@ -62,6 +65,22 @@ public class Gate implements Cloneable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Flight> getFlight1() {
+        return flight1;
+    }
+
+    public void setFlight1(Set<Flight> flight1) {
+        this.flight1 = flight1;
+    }
+
+    public Set<Flight> getFlight2() {
+        return flight2;
+    }
+
+    public void setFlight2(Set<Flight> flight2) {
+        this.flight2 = flight2;
     }
 
     @Override

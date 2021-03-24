@@ -20,9 +20,8 @@ public class TicketPayload {
 
     private Long aircraftSeat_id;
 
-    @NotBlank
     @NotNull
-    private TicketStatus status; ;
+    private String status; ;
 
     @NotBlank
     @NotNull
@@ -33,7 +32,6 @@ public class TicketPayload {
         this.user_id = user_id;
         this.flight_id = flight_id;
         this.aircraftSeat_id = aircraftSeat_id;
-        this.status = status;
         this.total_price = total_price;
     }
 
@@ -69,11 +67,11 @@ public class TicketPayload {
         this.aircraftSeat_id = aircraftSeat_id;
     }
 
-    public TicketStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(TicketStatus status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

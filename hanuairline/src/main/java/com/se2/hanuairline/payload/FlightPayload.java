@@ -33,7 +33,6 @@ public class FlightPayload {
 
     private Long arrival_gate_id;
 
-    @NotBlank
     @NotNull
     private String status; ;
 

@@ -27,40 +27,17 @@ public class SeatsByClass implements Cloneable {
 
     @NotBlank
     @NotNull
-    private int seats_per_row;
+    private int rowQuantity;
 
-    @NotBlank
-    @NotNull
-    private int rows_quantity;
-
-
-    public SeatsByClass(Long id, TravelClass travelClass, AircraftType aircraftType, @NotBlank @NotNull int quantity, @NotBlank @NotNull int seats_per_row, @NotBlank @NotNull int rows_quantity) {
-        this.id = id;
+    public SeatsByClass(TravelClass travelClass, AircraftType aircraftType, @NotBlank @NotNull int quantity, @NotBlank @NotNull int rowQuantity) {
         this.travelClass = travelClass;
         this.aircraftType = aircraftType;
         this.quantity = quantity;
-        this.seats_per_row = seats_per_row;
-        this.rows_quantity = rows_quantity;
+        this.rowQuantity = rowQuantity;
     }
 
-    public SeatsByClass() {
+    public SeatsByClass(){
 
-    }
-
-    public int getSeats_per_row() {
-        return seats_per_row;
-    }
-
-    public void setSeats_per_row(int seats_per_row) {
-        this.seats_per_row = seats_per_row;
-    }
-
-    public int getRows_quantity() {
-        return rows_quantity;
-    }
-
-    public void setRows_quantity(int rows_quantity) {
-        this.rows_quantity = rows_quantity;
     }
 
     public Long getId() {
@@ -69,14 +46,6 @@ public class SeatsByClass implements Cloneable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     public TravelClass getTravelClass() {
@@ -93,6 +62,22 @@ public class SeatsByClass implements Cloneable {
 
     public void setAircraftType(AircraftType aircraftType) {
         this.aircraftType = aircraftType;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getRowQuantity() {
+        return rowQuantity;
+    }
+
+    public void setRowQuantity(int rowQuantity) {
+        this.rowQuantity = rowQuantity;
     }
 
     @Override

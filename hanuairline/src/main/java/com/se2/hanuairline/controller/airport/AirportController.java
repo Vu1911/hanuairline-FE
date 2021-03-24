@@ -1,6 +1,7 @@
 package com.se2.hanuairline.controller.airport;
 
 import com.se2.hanuairline.model.airport.Airport;
+import com.se2.hanuairline.payload.airport.AirportPayload;
 import com.se2.hanuairline.repository.airport.AirportRepository;
 import com.se2.hanuairline.service.airport.AirportService;
 import org.slf4j.Logger;
@@ -47,21 +48,19 @@ public class AirportController {
 
     @GetMapping("/getById/{id}")
     public ResponseEntity<?> getAirportById(@PathVariable("id") long id) {
-        Optional<Airport> airport = airportRepository.findById(id);
+        Airport airport = airportService.getById(id);
 
-        if (airport.isPresent()) {
-            return new ResponseEntity<>(airport.get(), HttpStatus.OK);
+        if (airport != null) {
+            return new ResponseEntity<>(airport, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createAirport(@Valid @RequestBody Airport airport) {
+    public ResponseEntity<?> createAirport(@Valid @RequestBody AirportPayload request) {
         try {
-            Airport clone = (Airport) airport.clone();
-            Airport _airport = airportRepository
-                    .save(clone);
+            Airport _airport = airportService.createAirport(request);
             return new ResponseEntity<>(_airport, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -69,26 +68,22 @@ public class AirportController {
     }
 
     @PutMapping("/updateById/{id}")
-    public ResponseEntity<?> updateAirport(@PathVariable("id") long id, @RequestBody Airport airport) {
-        Optional<Airport> airportData = airportRepository.findById(id);
+    public ResponseEntity<?> updateAirport(@PathVariable("id") long id, @RequestBody AirportPayload request) {
+        Airport airport = airportService.updateAirport(id, request);
 
-        if (airportData.isPresent()) {
-            try {
-                Airport _airport = (Airport) airport.clone();
-
-                return new ResponseEntity<>(airportRepository.save(_airport), HttpStatus.OK);
-            } catch (Exception e){
-                return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-            }
+        if (airport != null) {
+            return new ResponseEntity<>(airport, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<HttpStatus> deleteAirport(@PathVariable("id") long id) {
         try {
-            airportRepository.deleteById(id);
+            if(airportService.deleteAirport(id)){
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

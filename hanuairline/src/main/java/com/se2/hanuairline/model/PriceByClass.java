@@ -4,6 +4,7 @@ import com.se2.hanuairline.model.aircraft.Aircraft;
 import com.se2.hanuairline.model.aircraft.TravelClass;
 import com.se2.hanuairline.model.airport.Airway;
 import com.se2.hanuairline.model.airport.Gate;
+import com.se2.hanuairline.model.audit.DateAudit;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -13,7 +14,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "price_by_class")
-public class PriceByClass implements Cloneable {
+public class PriceByClass extends DateAudit implements Cloneable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,14 +40,21 @@ public class AircraftSeatService {
         return aircraftSeatRepository.findByAircraft_IdOrTravelClass_Id(aircraft_id, travelclass_id, pagingSort);
     }
 
+    public AircraftSeat getAircraftSeatById(long id){
+        Optional<AircraftSeat> aircraftSeatData = aircraftSeatRepository.findById(id);
+
+        if (aircraftSeatData.isPresent()) {
+            return aircraftSeatData.get();
+        } else {
+            return null;
+        }
+    }
+
     public boolean createAircraftSeat (Aircraft aircraft){
 
         AircraftType aircraftType = aircraft.getAircraftType();
-        System.out.println(aircraftType.getId());
 
         List<SeatsByClass> seatsByClasses = seatsByClassService.findByAircraftTypeId(aircraftType.getId());
-        System.out.println(seatsByClasses);
-
 
         if (seatsByClasses == null){
             return false;
@@ -73,6 +82,15 @@ public class AircraftSeatService {
 
 
         return true;
+    }
+
+    public boolean deleteAircraftSeatByAircraft(Aircraft aircraft) {
+        try{
+            aircraftSeatRepository.deleteAircraftSeatsByAircraft(aircraft);
+            return true;
+        } catch(Exception e){
+            return false;
+        }
     }
 
     // get all the available seats that has not been booked for an aircraft with a specific flight

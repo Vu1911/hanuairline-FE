@@ -3,6 +3,7 @@ package com.se2.hanuairline.model;
 import com.se2.hanuairline.model.aircraft.Aircraft;
 import com.se2.hanuairline.model.airport.Airway;
 import com.se2.hanuairline.model.airport.Gate;
+import com.se2.hanuairline.model.audit.DateAudit;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -12,7 +13,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "tax_markup")
-public class TaxAndMarkup implements Cloneable {
+public class TaxAndMarkup extends DateAudit implements Cloneable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,12 +25,12 @@ public class TaxAndMarkup implements Cloneable {
 
     @NotBlank
     @NotNull
-    private int fare_percentage;
+    private int farePercentage;
 
     public TaxAndMarkup(Long id, @NotBlank @NotNull String name, @NotBlank @NotNull int fare_percentage) {
         this.id = id;
         this.name = name;
-        this.fare_percentage = fare_percentage;
+        this.farePercentage = fare_percentage;
     }
 
     public TaxAndMarkup() {
@@ -52,11 +53,11 @@ public class TaxAndMarkup implements Cloneable {
         this.name = name;
     }
 
-    public int getFare_percentage() {
-        return fare_percentage;
+    public int getFarePercentage() {
+        return farePercentage;
     }
 
-    public void setFare_percentage(int fare_percentage) {
-        this.fare_percentage = fare_percentage;
+    public void setFarePercentage(int fare_percentage) {
+        this.farePercentage = fare_percentage;
     }
 }

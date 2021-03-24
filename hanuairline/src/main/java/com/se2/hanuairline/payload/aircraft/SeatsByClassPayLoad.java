@@ -23,24 +23,7 @@ public class SeatsByClassPayLoad {
 
     @NotBlank
     @NotNull
-    private int seats_per_row;
-
-    @NotBlank
-    @NotNull
     private int rows_quantity;
-
-    public SeatsByClassPayLoad(Long id, Long travelClass_id, Long aircraftType_id, @NotBlank @NotNull int quantity, @NotBlank @NotNull int seats_per_row, @NotBlank @NotNull int rows_quantity) {
-        this.id = id;
-        this.travelClass_id = travelClass_id;
-        this.aircraftType_id = aircraftType_id;
-        this.quantity = quantity;
-        this.seats_per_row = seats_per_row;
-        this.rows_quantity = rows_quantity;
-    }
-
-    public SeatsByClassPayLoad(){
-
-    }
 
     public Long getId() {
         return id;
@@ -74,14 +57,6 @@ public class SeatsByClassPayLoad {
         this.quantity = quantity;
     }
 
-    public int getSeats_per_row() {
-        return seats_per_row;
-    }
-
-    public void setSeats_per_row(int seats_per_row) {
-        this.seats_per_row = seats_per_row;
-    }
-
     public int getRows_quantity() {
         return rows_quantity;
     }
@@ -89,5 +64,4 @@ public class SeatsByClassPayLoad {
     public void setRows_quantity(int rows_quantity) {
         this.rows_quantity = rows_quantity;
     }
-
 }

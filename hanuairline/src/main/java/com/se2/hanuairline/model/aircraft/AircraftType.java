@@ -1,5 +1,7 @@
 package com.se2.hanuairline.model.aircraft;
 
+import com.se2.hanuairline.model.audit.DateAudit;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 
@@ -14,7 +16,7 @@ import java.util.Set;
                 "name"
         }),
 })
-public class AircraftType implements Cloneable{
+public class AircraftType extends DateAudit implements Cloneable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,26 +30,25 @@ public class AircraftType implements Cloneable{
     private String name;
 
     @NotNull(message = "provide aircraft type name")
-    private int seat_capacity;
+    private int seatCapacity;
 
     @NotNull
-    private int luggage_capacity_kg;
+    private int luggageCapacityKg;
 
     @NotNull
-    private int average_velocity;
+    private int averageVelocity;
 
     @OneToMany(mappedBy = "aircraftType")
     private Set<SeatsByClass> seatsByClassSet;
 
-    public AircraftType(Long id, @NotBlank @Size(max = 40) String name, @NotBlank @NotNull int seat_capacity, @NotBlank @NotNull int lugage_capacity_kg, @NotBlank @NotNull int average_velocity) {
-        this.id = id;
+    public AircraftType(@Size(max = 40) @NotNull(message = "provide aircraft type name") String name, @NotNull(message = "provide aircraft type name") int seatCapacity, @NotNull int luggageCapacityKg, @NotNull int averageVelocity) {
         this.name = name;
-        this.seat_capacity = seat_capacity;
-        this.luggage_capacity_kg = lugage_capacity_kg;
-        this.average_velocity = average_velocity;
+        this.seatCapacity = seatCapacity;
+        this.luggageCapacityKg = luggageCapacityKg;
+        this.averageVelocity = averageVelocity;
     }
 
-    public AircraftType() {
+    public AircraftType(){
 
     }
 
@@ -59,6 +60,14 @@ public class AircraftType implements Cloneable{
         this.id = id;
     }
 
+    public Set<Aircraft> getAircraft() {
+        return aircraft;
+    }
+
+    public void setAircraft(Set<Aircraft> aircraft) {
+        this.aircraft = aircraft;
+    }
+
     public String getName() {
         return name;
     }
@@ -67,28 +76,36 @@ public class AircraftType implements Cloneable{
         this.name = name;
     }
 
-    public int getSeat_capacity() {
-        return seat_capacity;
+    public int getSeatCapacity() {
+        return seatCapacity;
     }
 
-    public void setSeat_capacity(int seat_capacity) {
-        this.seat_capacity = seat_capacity;
+    public void setSeatCapacity(int seatCapacity) {
+        this.seatCapacity = seatCapacity;
     }
 
-    public int getLuggage_capacity_kg() {
-        return luggage_capacity_kg;
+    public int getLuggageCapacityKg() {
+        return luggageCapacityKg;
     }
 
-    public void setLuggage_capacity_kg(int luggage_capacity_kg) {
-        this.luggage_capacity_kg = luggage_capacity_kg;
+    public void setLuggageCapacityKg(int luggageCapacityKg) {
+        this.luggageCapacityKg = luggageCapacityKg;
     }
 
-    public int getAverage_velocity() {
-        return average_velocity;
+    public int getAverageVelocity() {
+        return averageVelocity;
     }
 
-    public void setAverage_velocity(int average_velocity) {
-        this.average_velocity = average_velocity;
+    public void setAverageVelocity(int averageVelocity) {
+        this.averageVelocity = averageVelocity;
+    }
+
+    public Set<SeatsByClass> getSeatsByClassSet() {
+        return seatsByClassSet;
+    }
+
+    public void setSeatsByClassSet(Set<SeatsByClass> seatsByClassSet) {
+        this.seatsByClassSet = seatsByClassSet;
     }
 
     @Override

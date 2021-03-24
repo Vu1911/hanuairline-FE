@@ -4,7 +4,9 @@ import com.se2.hanuairline.model.aircraft.Aircraft;
 import com.se2.hanuairline.model.aircraft.AircraftSeat;
 import com.se2.hanuairline.model.airport.Airway;
 import com.se2.hanuairline.model.airport.Gate;
+import com.se2.hanuairline.model.audit.DateAudit;
 import com.se2.hanuairline.model.user.User;
+import com.sun.istack.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -14,13 +16,13 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "ticket")
-public class Ticket implements Cloneable, Serializable {
+public class Ticket extends DateAudit implements Cloneable, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -32,22 +34,16 @@ public class Ticket implements Cloneable, Serializable {
     @JoinColumn(name = "aircraftseat_id")
     private AircraftSeat aircraftSeat;
 
-    @NotBlank
-    @NotNull
-    private String status;
+    @Nullable
+    @Enumerated(EnumType.STRING)
+    private TicketType type;
 
-    @NotBlank
     @NotNull
-    private int total_price;
+    @Enumerated(EnumType.STRING)
+    private TicketStatus status;
 
-    public Ticket(Long id, User user, Flight flight, AircraftSeat aircraftSeat, @NotBlank @NotNull TicketStatus status, @NotBlank @NotNull int total_price) {
-        this.id = id;
-        this.user = user;
-        this.flight = flight;
-        this.aircraftSeat = aircraftSeat;
-        this.status = status.toString();
-        this.total_price = total_price;
-    }
+    @Transient
+    private int totalPrice;
 
     public Ticket() {
 
@@ -85,20 +81,28 @@ public class Ticket implements Cloneable, Serializable {
         this.aircraftSeat = aircraftSeat;
     }
 
-    public String getStatus() {
+    public TicketStatus getStatus() {
         return status;
     }
 
     public void setStatus(TicketStatus status) {
-        this.status = status.toString();
+        this.status = status;
     }
 
-    public int getTotal_price() {
-        return total_price;
+    public int getTotalPrice() {
+        return totalPrice;
     }
 
-    public void setTotal_price(int total_price) {
-        this.total_price = total_price;
+    public void setTotalPrice(int total_price) {
+        this.totalPrice = total_price;
+    }
+
+    public TicketType getType() {
+        return type;
+    }
+
+    public void setType(TicketType type) {
+        this.type = type;
     }
 
     @Override
