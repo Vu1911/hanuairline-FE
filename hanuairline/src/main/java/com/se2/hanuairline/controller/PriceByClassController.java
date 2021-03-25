@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -28,7 +30,7 @@ import java.util.List;
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
 
-        // get one base on id
+        // get one base on id // checked API
         @GetMapping("/get-one/{id}")
         public ResponseEntity<?> showOnePriceByClass(@PathVariable("id")Long id){
             ResponseEntity<?> responseEntity;
@@ -60,12 +62,13 @@ import java.util.List;
         return responseEntity;
         }
 
-        // update one ->finished -> checked API success
+        // update one // finished // checked API
         @PutMapping("/update-one/{id}")
         public ResponseEntity<?> updateOneRecord(@RequestBody PriceByClassPayload priceByClassPayload, @PathVariable(name="id")Long id) { // phai gui content update len nua
             ResponseEntity<?> responseEntity ;
 
                 try {
+                    System.out.println("Check controller data : "+priceByClassPayload.getTravelclass_id()+" +"+priceByClassPayload.getAirway_id());
                     PriceByClass result= priceByClassService.updateARecord(id,priceByClassPayload);
                     responseEntity = new ResponseEntity<>(result,HttpStatus.OK);
             } catch (InvalidInputValueException e) {
@@ -77,7 +80,7 @@ import java.util.List;
 
 
 
-        // update records with new data based on its ids
+        // update records with new data based on their ids // finished // checked API
         @PutMapping("/update-many")
         public ResponseEntity<?> updateManyRecords(@RequestBody List<PriceByClassPayload> priceByClassPayloads){
             // String --------------------------------
@@ -93,12 +96,13 @@ import java.util.List;
         }
 
 
-        // delete many records // rethink // chưa check API
+        // finished // checked API
         @DeleteMapping("/delete-many")
-        public ResponseEntity<?> deleteManyPriceByClass(@RequestParam("ids") Long[]ids){
+        public ResponseEntity<?> deleteManyPriceByClass(@RequestBody Long[]ids){
             ResponseEntity<?> responseEntity;
             List<PriceByClass> result= null;
             try {
+                System.out.println(Arrays.toString(ids));
                 result = priceByClassService.deleteManyRecords(ids);
                 responseEntity = new ResponseEntity<>(result,HttpStatus.OK);
             } catch (InvalidInputValueException e) {
@@ -107,7 +111,7 @@ import java.util.List;
             return responseEntity;
 
         }
-        // delete a record -> finished // checkedAPI // exception
+        // delete a record by id // finished // checked API
         @DeleteMapping("/delete-one/{id}")
         public ResponseEntity<?> deleteAPriceByClass(@PathVariable("id") Long id){
             ResponseEntity<?> responseEntity;
