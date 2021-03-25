@@ -1,6 +1,7 @@
 package com.se2.hanuairline.controller;
 
 import com.se2.hanuairline.model.DiscountEvent;
+import com.se2.hanuairline.payload.DiscountEventPayload;
 import com.se2.hanuairline.repository.DiscountEventRepository;
 import com.se2.hanuairline.service.DiscountEventService;
 import org.slf4j.Logger;
@@ -40,11 +41,9 @@ public class DiscountEventController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createDiscountEvent(@RequestBody DiscountEvent discountEvent) {
+    public ResponseEntity<?> createDiscountEvent(@RequestBody DiscountEventPayload request) {
         try {
-            DiscountEvent clone = (DiscountEvent) discountEvent.clone();
-            DiscountEvent _discountEvent = discountEventRepository
-                    .save(clone);
+            DiscountEvent _discountEvent = discountEventService.createDiscountEvent(request);
             return new ResponseEntity<>(_discountEvent, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -52,28 +51,21 @@ public class DiscountEventController {
     }
 
     @PutMapping("/updateById/{id}")
-    public ResponseEntity<?> updateDiscountEvent(@PathVariable("id") long id, @RequestBody DiscountEvent discountEvent) {
-        Optional<DiscountEvent> discountEventData = discountEventRepository.findById(id);
+    public ResponseEntity<?> updateDiscountEvent(@PathVariable("id") long id, @RequestBody DiscountEventPayload request) {
+        DiscountEvent discountEventData = discountEventService.updateDiscountEvent(id, request);
 
-        if (discountEventData.isPresent()) {
-            try {
-                DiscountEvent _discountEvent = (DiscountEvent) discountEvent.clone();
-
-                return new ResponseEntity<>(discountEventRepository.save(_discountEvent), HttpStatus.OK);
-            } catch (Exception e){
-                return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-            }
+        if (discountEventData != null) {
+                return new ResponseEntity<>(discountEventData, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<HttpStatus> deleteDiscountEvent(@PathVariable("id") long id) {
-        try {
-            discountEventRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
+        if(discountEventService.deleteById(id)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else  {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
