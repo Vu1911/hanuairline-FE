@@ -1,8 +1,6 @@
 package com.se2.hanuairline.model.airport;
 
-import com.se2.hanuairline.model.aircraft.AircraftSeat;
-import com.se2.hanuairline.model.aircraft.AircraftStatus;
-import com.se2.hanuairline.model.aircraft.AircraftType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.se2.hanuairline.model.audit.DateAudit;
 import org.hibernate.annotations.NaturalId;
 
@@ -47,12 +45,17 @@ public class Airport extends DateAudit implements Cloneable {
     private AirportStatus status;
 
     @OneToMany(mappedBy = "airport")
+    @JsonIgnore
     private Set<Gate> gates;
 
+
     @OneToMany(mappedBy = "departureAirport")
+    @JsonIgnore
     private Set<Airway> airway1;
 
+
     @OneToMany(mappedBy = "arrivalAirport")
+    @JsonIgnore
     private Set<Airway> airway2;
 
     public Airport(@NotBlank @NotNull @Size(max = 40) String name, @NotBlank @NotNull @Size(max = 40) String country, @NotBlank @Size(max = 40) String city, @NotNull int capacity, @NotBlank @NotNull AirportStatus status) {
@@ -115,6 +118,7 @@ public class Airport extends DateAudit implements Cloneable {
         this.status = status;
     }
 
+    @JsonIgnore
     public Set<Gate> getGates() {
         return gates;
     }
@@ -123,6 +127,7 @@ public class Airport extends DateAudit implements Cloneable {
         this.gates = gates;
     }
 
+    @JsonIgnore
     public Set<Airway> getAirway1() {
         return airway1;
     }
@@ -131,6 +136,7 @@ public class Airport extends DateAudit implements Cloneable {
         this.airway1 = airway1;
     }
 
+    @JsonIgnore
     public Set<Airway> getAirway2() {
         return airway2;
     }

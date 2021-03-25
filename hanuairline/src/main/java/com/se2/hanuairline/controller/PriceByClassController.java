@@ -20,26 +20,32 @@ import java.util.List;
         private PriceByClassService priceByClassService;
 
 
-        // Read all finished
+        // Read all finished -> checked API
         @GetMapping("/allRecords")
         public ResponseEntity<?> showAllPriceByClass(){
-            priceByClassService = new PriceByClassService();
+//            priceByClassService = new PriceByClassService();
             List<PriceByClass> result= priceByClassService.getAllPriceByClass();
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
 
-        // Read one based on the travelclassid and airwayid or by id -> finished
-        @GetMapping("/get-one")
-        public ResponseEntity<?> showOnePriceByClass(@RequestParam("travelclass_id") Long travelClassId,@RequestParam("airway_id") Long airwayId ){
-            priceByClassService = new PriceByClassService();
-            PriceByClass result = priceByClassService.getOnePriceByClass(travelClassId,airwayId);
-            return new ResponseEntity<>(result,HttpStatus.OK);
+        // get one base on id
+        @GetMapping("/get-one/{id}")
+        public ResponseEntity<?> showOnePriceByClass(@PathVariable("id")Long id){
+            ResponseEntity<?> responseEntity;
+            PriceByClass result = null;
+            try {
+                result = priceByClassService.getOnePriceByClass(id);
+            responseEntity  = new ResponseEntity<>(result,HttpStatus.OK);
+            } catch (InvalidInputValueException e) {
+                responseEntity  = new ResponseEntity<>(e.getMessage(),HttpStatus.EXPECTATION_FAILED);
+            }
+            return responseEntity;
 
         }
-        // add One -> finished
+        // add One -> finished , checked API
         @PostMapping("/insert")
         public ResponseEntity<?> insertPriceByClass(@RequestBody PriceByClassPayload priceByClassPayload){
-            priceByClassService = new PriceByClassService();
+
             PriceByClass result= null;
             ResponseEntity<?> responseEntity;
             try {
@@ -54,13 +60,13 @@ import java.util.List;
         return responseEntity;
         }
 
-        // update one ->finished
-        @PutMapping("/update-one")
-        public ResponseEntity<?> updateOneRecord(@RequestBody PriceByClassPayload priceByClassPayload) { // phai gui content update len nua
+        // update one ->finished -> checked API success
+        @PutMapping("/update-one/{id}")
+        public ResponseEntity<?> updateOneRecord(@RequestBody PriceByClassPayload priceByClassPayload, @PathVariable(name="id")Long id) { // phai gui content update len nua
             ResponseEntity<?> responseEntity ;
 
                 try {
-                    PriceByClass result= priceByClassService.updateARecord(priceByClassPayload);
+                    PriceByClass result= priceByClassService.updateARecord(id,priceByClassPayload);
                     responseEntity = new ResponseEntity<>(result,HttpStatus.OK);
             } catch (InvalidInputValueException e) {
                     responseEntity = new ResponseEntity<>(e.getMessage(),HttpStatus.EXPECTATION_FAILED);
@@ -71,7 +77,7 @@ import java.util.List;
 
 
 
-        // update many -> finished
+        // update records with new data based on its ids
         @PutMapping("/update-many")
         public ResponseEntity<?> updateManyRecords(@RequestBody List<PriceByClassPayload> priceByClassPayloads){
             // String --------------------------------
@@ -87,7 +93,7 @@ import java.util.List;
         }
 
 
-        // delete many records
+        // delete many records // rethink // chưa check API
         @DeleteMapping("/delete-many")
         public ResponseEntity<?> deleteManyPriceByClass(@RequestParam("ids") Long[]ids){
             ResponseEntity<?> responseEntity;
@@ -101,7 +107,7 @@ import java.util.List;
             return responseEntity;
 
         }
-        // delete a record -> finished
+        // delete a record -> finished // checkedAPI // exception
         @DeleteMapping("/delete-one/{id}")
         public ResponseEntity<?> deleteAPriceByClass(@PathVariable("id") Long id){
             ResponseEntity<?> responseEntity;

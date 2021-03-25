@@ -10,9 +10,7 @@ import javax.validation.constraints.NotNull;
 import java.time.Instant;
 
 public class PriceByClassPayload {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
