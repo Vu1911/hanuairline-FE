@@ -94,9 +94,16 @@ public class PriceByClassService {
 
         }
           Optional<TravelClass> checkTravelClassRecord =travelClassRepository.findById(item.getTravelclass_id());
-//        Optional<Airway> =   airwayRepository.findById(item.getAirway_id());
-//         if(priceBy)
-//            updatedRecords.add(updatedPriceByClass);
+        Optional<Airway> checkAirwayRecord =   airwayRepository.findById(item.getAirway_id());
+         if(!checkTravelClassRecord.isPresent()){
+             throw new InvalidInputValueException("update travelClass_id does not exist : " +item.getTravelclass_id());
+         }
+            if(!checkAirwayRecord.isPresent()){
+                throw new InvalidInputValueException("update airway_id does not exist : " +item.getAirway_id());
+            }
+            PriceByClass record = priceByClassRepository.findById(item.getId());
+            record.setTravelClass();
+            updatedRecords.add(updatedPriceByClass);
         }catch(Exception e){
             fails.concat(" "+e.getMessage());
             continue;
