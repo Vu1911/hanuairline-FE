@@ -26,7 +26,6 @@ public class PriceByClass extends DateAudit implements Cloneable {
     private TravelClass travelClass;
 
     @ManyToOne
-
     @JoinColumn(name = "airway_id")
     private Airway airway;
 
