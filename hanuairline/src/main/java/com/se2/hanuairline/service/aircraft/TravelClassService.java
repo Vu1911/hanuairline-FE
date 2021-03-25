@@ -34,15 +34,16 @@ public class TravelClassService {
             throw new InvalidInputValueException("Không tồn tại TravelClass với id : "+id);
         }
     }
-    public TravelClass createNewRecord( TravelClassPayload travelClassPayload) throws InvalidInputValueException {
+    public TravelClass createNewRecord(TravelClassPayload travelClassPayload) throws InvalidInputValueException {
         if(checkExisted(travelClassPayload.getName(),travelClassPayload.getDescription())){
-            throw new InvalidInputValueException("Invalid input to create :record trùng lặp ");
+            throw new InvalidInputValueException("Invalid input to create :row data trùng lặp ");
 
         }
+
         TravelClass travelClass = new TravelClass();
         travelClass.setName(travelClassPayload.getName());
         travelClass.setDescription(travelClassPayload.getDescription());
-        System.out.println(travelClass.toString());
+//        System.out.println(travelClass.toString());
 
     TravelClass result =  travelClassRepository.save(travelClass);
 
@@ -50,9 +51,14 @@ public class TravelClassService {
 
     }
 
+
     public TravelClass updateARecordById(Long id,TravelClassPayload travelClassPayload) throws InvalidInputValueException {
-        if(!checkExisted(travelClassPayload.getName(),travelClassPayload.getDescription())){
-            throw new InvalidInputValueException("Can't update with id: "+id);
+
+        if(!checkExisted(id)){
+            throw new InvalidInputValueException("update id does not exist :  "+id);
+        }
+        if(checkExisted(travelClassPayload.getName(),travelClassPayload.getDescription())){
+            throw new InvalidInputValueException("duplicate record data : "+"name : "+travelClassPayload.getName()+" description: "+travelClassPayload.getDescription());
         }
 
         TravelClass travelClass = this.getRecordById(id);

@@ -23,12 +23,15 @@ public class TravelClassController {
     @Autowired
     private TravelClassService travelClassService;
 
+
+    // finished // checked API
     @GetMapping("/getAll")
     public ResponseEntity<?> getAllTravelClass() {
         List<TravelClass> travelClass = travelClassService.getAllTravelClass();
         return new ResponseEntity<>(travelClass, HttpStatus.OK);
     }
 
+    // finished // checked API
     @GetMapping("/getById/{id}")
     public ResponseEntity<?> getTravelClassById(@PathVariable("id") long id) {
         ResponseEntity<?> responseEntity;
@@ -43,6 +46,7 @@ public class TravelClassController {
 
     }
 
+    // finished // checked API
     @PostMapping("/create")
     public ResponseEntity<?> createTravelClass(@Valid @RequestBody TravelClassPayload travelClassPayload) {
         ResponseEntity<?> responseEntity;
@@ -61,6 +65,7 @@ public class TravelClassController {
         return responseEntity;
     }
 
+    // finished // checked API
     @PutMapping("/updateById/{id}")
     public ResponseEntity<?> updateTravelClass(@PathVariable("id") long id, @RequestBody TravelClassPayload travelClassPayload) {
         ResponseEntity<?> responseEntity;
@@ -71,10 +76,14 @@ public class TravelClassController {
         } catch (InvalidInputValueException e) {
             responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
         }
+        catch (Exception ex){
+            responseEntity = new ResponseEntity<>(ex.getMessage(), HttpStatus.EXPECTATION_FAILED);
+
+        }
         return responseEntity;
     }
 
-
+    // finished // checked API
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteATravelClass(@PathVariable("id") long id) {
         ResponseEntity<?> responseEntity;

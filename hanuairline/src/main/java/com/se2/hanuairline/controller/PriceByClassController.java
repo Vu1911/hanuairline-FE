@@ -28,15 +28,13 @@ import java.util.List;
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
 
-        // Read one based on the travelclassid and airwayid or by id -> finished // checked API/ /exception
-        @GetMapping("/get-one")
-        public ResponseEntity<?> showOnePriceByClass(@RequestBody PriceByClassPayload priceByClassPayload){
+        // get one base on id
+        @GetMapping("/get-one/{id}")
+        public ResponseEntity<?> showOnePriceByClass(@PathVariable("id")Long id){
             ResponseEntity<?> responseEntity;
-            System.out.println("in  get ont controller");
-            System.out.println("travelClassId : "+priceByClassPayload.getTravelclass_id()+"airway_id : "+priceByClassPayload.getAirway_id());
             PriceByClass result = null;
             try {
-                result = priceByClassService.getOnePriceByClass(priceByClassPayload.getTravelclass_id(),priceByClassPayload.getAirway_id());
+                result = priceByClassService.getOnePriceByClass(id);
             responseEntity  = new ResponseEntity<>(result,HttpStatus.OK);
             } catch (InvalidInputValueException e) {
                 responseEntity  = new ResponseEntity<>(e.getMessage(),HttpStatus.EXPECTATION_FAILED);
@@ -47,7 +45,7 @@ import java.util.List;
         // add One -> finished , checked API
         @PostMapping("/insert")
         public ResponseEntity<?> insertPriceByClass(@RequestBody PriceByClassPayload priceByClassPayload){
-//            priceByClassService = new PriceByClassService();
+
             PriceByClass result= null;
             ResponseEntity<?> responseEntity;
             try {
@@ -79,7 +77,7 @@ import java.util.List;
 
 
 
-        // update price cho những records có travelClass_id và airway_id -> finished // chưa check API
+        // update records with new data based on its ids
         @PutMapping("/update-many")
         public ResponseEntity<?> updateManyRecords(@RequestBody List<PriceByClassPayload> priceByClassPayloads){
             // String --------------------------------
