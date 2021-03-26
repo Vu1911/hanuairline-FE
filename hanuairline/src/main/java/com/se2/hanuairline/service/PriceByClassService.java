@@ -85,28 +85,6 @@ public class PriceByClassService {
         for(PriceByClassPayload item : priceByClassPayloads ){
         try {
 
-//        if(!checkExisted(item.getId())){
-//            throw new InvalidInputValueException("update id does not exist : "+ item.getId());
-//        }
-//        if(checkExisted(item.getTravelclass_id(),item.getAirway_id())){
-//            throw new InvalidInputValueException("duplicate record data : travelClass_id: "+item.getTravelclass_id()+" airway_id: "+item.getAirway_id());
-//
-//        }
-//          Optional<TravelClass> checkTravelClassRecord =travelClassRepository.findById(item.getTravelclass_id());
-//        Optional<Airway> checkAirwayRecord =   airwayRepository.findById(item.getAirway_id());
-//         if(!checkTravelClassRecord.isPresent()){
-//             throw new InvalidInputValueException("update travelClass_id does not exist : " +item.getTravelclass_id());
-//         }
-//            if(!checkAirwayRecord.isPresent()){
-//                throw new InvalidInputValueException("update airway_id does not exist : " +item.getAirway_id());
-//            }
-//            Optional<PriceByClass> record = priceByClassRepository.findById(item.getId());
-//            PriceByClass priceByClass = record.get();
-//            priceByClass.setTravelClass(checkTravelClassRecord.get());
-//            priceByClass.setAirway(checkAirwayRecord.get());
-//            priceByClass.setPrice(item.getPrice());
-//            PriceByClass updatedPriceByClass = priceByClassRepository.save(priceByClass);
-//            updatedRecords.add(updatedPriceByClass);
           PriceByClass priceByClass =   updateARecord(item.getId(), item);
           updatedRecords.add(priceByClass);
         }catch(Exception e){

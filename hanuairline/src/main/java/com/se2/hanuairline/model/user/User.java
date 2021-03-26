@@ -1,7 +1,9 @@
 package com.se2.hanuairline.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.se2.hanuairline.model.Ticket;
 import com.se2.hanuairline.model.audit.DateAudit;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -60,6 +62,7 @@ public class User extends DateAudit implements Cloneable {
 
 
         @ManyToMany(fetch = FetchType.LAZY)
+        @JsonIgnore
         @JoinTable(name = "User_role",
                 joinColumns = @JoinColumn(name = "user_id"),
                 inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -68,7 +71,7 @@ public class User extends DateAudit implements Cloneable {
         @OneToMany(mappedBy = "user")
         private Set<Ticket> ticket;
 
-        @OneToOne(mappedBy = "user")
+        @OneToOne(mappedBy = "user",cascade = CascadeType.REMOVE)
         private Profile profile;
 
         public User(Long id, @NotBlank @Size(max = 40) String name, @NotBlank @Size(max = 15) String username, @NotBlank @Size(max = 40) @Email String email, String imageUrl, @NotBlank @Size(max = 100) String password, @NotNull AuthProvider provider, String providerId, UserStatus status) {
