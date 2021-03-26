@@ -34,7 +34,7 @@ public class Aircraft extends DateAudit implements Cloneable{
     @Enumerated(EnumType.STRING)
     private AircraftStatus status;
 
-    @OneToMany(mappedBy = "aircraft")
+    @OneToMany(mappedBy = "aircraft", cascade = {CascadeType.REMOVE}, orphanRemoval = true)
     private Set<AircraftSeat> aircraftSeatSet;
 
     @OneToMany(mappedBy = "aircraft")

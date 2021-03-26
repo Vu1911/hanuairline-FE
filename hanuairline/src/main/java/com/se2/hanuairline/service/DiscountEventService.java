@@ -31,9 +31,41 @@ public class DiscountEventService {
         }
     }
 
-//    public DiscountEvent createDiscountEvent(DiscountEventPayload request){
-//        DiscountEvent discountEvent = new DiscountEvent();
-//
-//        discountEvent
-//    }
+    public DiscountEvent createDiscountEvent(DiscountEventPayload request){
+        DiscountEvent discountEvent = new DiscountEvent();
+
+        discountEvent.setDiscountRate(request.getDiscount_rate_percentage());
+
+        DiscountEvent _discount = discountEventRepository.save(discountEvent);
+        return _discount;
+    }
+
+    public DiscountEvent updateDiscountEvent(Long id, DiscountEventPayload request){
+        Optional<DiscountEvent> discountEventData = discountEventRepository.findById(id);
+
+        if (discountEventData.isPresent()) {
+            try {
+                DiscountEvent discountEvent = new DiscountEvent();
+
+                discountEvent.setDiscountRate(request.getDiscount_rate_percentage());
+
+                DiscountEvent _discount = discountEventRepository.save(discountEvent);
+
+                return _discount;
+            } catch (Exception e){
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    public boolean deleteById(Long id){
+        try{
+            discountEventRepository.deleteById(id);
+            return true;
+        } catch(Exception e){
+            return false;
+        }
+    }
 }

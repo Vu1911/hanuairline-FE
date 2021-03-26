@@ -52,12 +52,14 @@ public class Flight extends DateAudit implements Cloneable {
     @OneToMany(mappedBy = "flight")
     private Set<Ticket> ticket;
 
-    @ManyToOne
-    @JoinColumn(name = "discount_id")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE})
+    @JoinTable(name = "Flight_discount",
+            joinColumns = @JoinColumn(name = "flight_id"),
+            inverseJoinColumns = @JoinColumn(name = "discount_id"))
     @Nullable
-    private DiscountEvent discount;
+    private Set<DiscountEvent> discount;
 
-    public Flight(Long id, Aircraft aircraft, Airway airway, @NotNull Instant departureTime, Gate departureGate, @NotNull Instant arrivalTime, Gate arrivalGate, @NotBlank @NotNull FlightStatus status, DiscountEvent discount) {
+    public Flight(Long id, Aircraft aircraft, Airway airway, @NotNull Instant departureTime, Gate departureGate, @NotNull Instant arrivalTime, Gate arrivalGate, @NotBlank @NotNull FlightStatus status) {
         this.id = id;
         this.aircraft = aircraft;
         this.airway = airway;
@@ -66,7 +68,6 @@ public class Flight extends DateAudit implements Cloneable {
         this.arrivalTime = arrivalTime;
         this.arrivalGate = arrivalGate;
         this.status = status;
-        this.discount = discount;
     }
 
     public Flight(){
@@ -137,11 +138,11 @@ public class Flight extends DateAudit implements Cloneable {
         this.status = status;
     }
 
-    public DiscountEvent getDiscount() {
+    public Set<DiscountEvent> getDiscount() {
         return discount;
     }
 
-    public void setDiscount(DiscountEvent discount) {
+    public void setDiscount(Set<DiscountEvent> discount) {
         this.discount = discount;
     }
 

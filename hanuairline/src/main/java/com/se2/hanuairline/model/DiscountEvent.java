@@ -19,7 +19,7 @@ public class DiscountEvent extends DateAudit implements Cloneable {
     @NotNull
     private int discountRate;
 
-    @OneToMany(mappedBy = "discount")
+    @ManyToMany(mappedBy = "discount",cascade = {CascadeType.REMOVE})
     private Set<Flight> flight;
 
     public DiscountEvent(@NotBlank @NotNull int discountRate) {

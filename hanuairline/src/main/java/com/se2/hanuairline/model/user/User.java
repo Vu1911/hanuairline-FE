@@ -60,9 +60,7 @@ public class User extends DateAudit implements Cloneable {
         @Enumerated(EnumType.STRING)
         private UserStatus status;
 
-
-        @ManyToMany(fetch = FetchType.LAZY)
-        @JsonIgnore
+        @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE})
         @JoinTable(name = "User_role",
                 joinColumns = @JoinColumn(name = "user_id"),
                 inverseJoinColumns = @JoinColumn(name = "role_id"))
