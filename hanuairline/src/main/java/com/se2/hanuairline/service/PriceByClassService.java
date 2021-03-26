@@ -81,29 +81,13 @@ public class PriceByClassService {
     }
     // chưa check API
     public List<PriceByClass> updateManyRecords(List<PriceByClassPayload> priceByClassPayloads) throws InvalidInputValueException {
-       List<PriceByClass> updatedRecords = new ArrayList<>();
+  List<PriceByClass> updatedRecords = new ArrayList<>();
         String fails = "";
         for(PriceByClassPayload item : priceByClassPayloads ){
         try {
 
-        if(!checkExisted(item.getId())){
-            throw new InvalidInputValueException("update id does not exist : "+ item.getId());
-        }
-        if(checkExisted(item.getTravelclass_id(),item.getAirway_id())){
-            throw new InvalidInputValueException("duplicate record data : travelClass_id: "+item.getTravelclass_id()+" airway_id: "+item.getAirway_id());
-
-        }
-          Optional<TravelClass> checkTravelClassRecord =travelClassRepository.findById(item.getTravelclass_id());
-        Optional<Airway> checkAirwayRecord =   airwayRepository.findById(item.getAirway_id());
-         if(!checkTravelClassRecord.isPresent()){
-             throw new InvalidInputValueException("update travelClass_id does not exist : " +item.getTravelclass_id());
-         }
-            if(!checkAirwayRecord.isPresent()){
-                throw new InvalidInputValueException("update airway_id does not exist : " +item.getAirway_id());
-            }
-//            PriceByClass record = priceByClassRepository.findById(item.getId());
-//            record.setTravelClass();
-//            updatedRecords.add(updatedPriceByClass);
+          PriceByClass priceByClass =   updateARecord(item.getId(), item);
+          updatedRecords.add(priceByClass);
         }catch(Exception e){
             fails.concat(" "+e.getMessage());
             continue;
@@ -114,7 +98,6 @@ public class PriceByClassService {
             throw new InvalidInputValueException(fails);
         }
         return updatedRecords;
-
     }
     // add one
 

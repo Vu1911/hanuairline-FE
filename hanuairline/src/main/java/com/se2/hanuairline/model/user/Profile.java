@@ -25,24 +25,30 @@ public class Profile extends DateAudit implements Cloneable {
     private User user;
 
     @NotBlank
+    @NotNull
     @Size(max = 40)
+    @Column(unique = true)
     private String id_card_number;
 
+
     @NotBlank
+    @NotNull
     @Size(max = 15)
+    @Column(unique = true)
     private String credit_card_number;
 
-    @NaturalId
     @NotBlank
+    @NotNull
     @Size(max = 40)
-    private String phoneNumber;
+    @Column(unique = true)
+    private String phone_number;
 
-    public Profile(Long id, User user, @NotBlank @Size(max = 40) String id_card_number, @NotBlank @Size(max = 15) String credit_card_number, @NotBlank @Size(max = 40) String phoneNumber) {
+    public Profile(Long id, User user, @NotBlank @NotNull @Size(max = 40) String id_card_number, @NotBlank @NotNull @Size(max = 15) String credit_card_number, @NotBlank @NotNull @Size(max = 40) String phone_number) {
         this.id = id;
         this.user = user;
         this.id_card_number = id_card_number;
         this.credit_card_number = credit_card_number;
-        this.phoneNumber = phoneNumber;
+        this.phone_number = phone_number;
     }
 
     public Profile() {
@@ -81,12 +87,23 @@ public class Profile extends DateAudit implements Cloneable {
         this.credit_card_number = credit_card_number;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getPhone_number() {
+        return phone_number;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
+    }
+
+    @Override
+    public String toString() {
+        return "Profile{" +
+                "id=" + id +
+                ", user=" + user +
+                ", id_card_number='" + id_card_number + '\'' +
+                ", credit_card_number='" + credit_card_number + '\'' +
+                ", phone_number='" + phone_number + '\'' +
+                '}';
     }
 }
 

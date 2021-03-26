@@ -1,5 +1,6 @@
 package com.se2.hanuairline.controller.user;
 
+import com.se2.hanuairline.exception.InvalidInputValueException;
 import com.se2.hanuairline.model.user.User;
 import com.se2.hanuairline.payload.user.UserPayload;
 import com.se2.hanuairline.service.user.UserService;
@@ -18,6 +19,21 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    // checked API
+    @PostMapping("/new")
+    public ResponseEntity<?> createNewUser(@RequestBody UserPayload userPayload){
+        ResponseEntity<?> responseEntity ;
+
+        try {
+            User result = userService.createNewUser(userPayload);
+            responseEntity = new ResponseEntity<>(result,HttpStatus.OK);
+        } catch (InvalidInputValueException e) {
+            responseEntity = new ResponseEntity<>(e.getMessage(),HttpStatus.OK);
+        }
+
+        return responseEntity;
+
+    }
     @GetMapping("/getAll")
     public ResponseEntity<?> getAllUsers (@RequestParam(required = false, defaultValue = "_") String username,
                                           @RequestParam(required = false, defaultValue = "_") String name,
@@ -57,13 +73,21 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id){
-        if (userService.deleteUser(id)){
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+    // checked API // finished
+    @DeleteMapping("/delete-one/{id}")
+    public ResponseEntity<?> deleteOneUser(@PathVariable Long id){
+        ResponseEntity<?> responseEntity;
+        try {
+          User result = userService.deleteUserById(id);
+          responseEntity = new ResponseEntity<>(result,HttpStatus.OK);
+        } catch (InvalidInputValueException e) {
+            responseEntity = new ResponseEntity<>(e.getMessage(),HttpStatus.OK);
         }
+        catch(Exception e){
+            responseEntity = new ResponseEntity<>(e.getMessage(),HttpStatus.OK);
+
+        }
+        return responseEntity;
     }
 }
 
