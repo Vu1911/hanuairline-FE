@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 const PrivateRoute = props => {
     return (
         <div>
-            
+            App working
         </div>
     )
 }
