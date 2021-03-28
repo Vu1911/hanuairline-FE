@@ -2,7 +2,8 @@ const CONFIG = {
   baseURL: '/',
   title: 'Tomato Work',
   http: {
-    baseURL: '/api'
+    //TODO: fix base url backend
+    baseURL: 'http://localhost:3000'
   }
 }
 export default CONFIG
