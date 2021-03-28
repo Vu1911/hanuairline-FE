@@ -2,7 +2,6 @@ import React from 'react'
 import './style.scss'
 import { Result, Button } from 'antd'
 import { withRouter } from 'react-router-dom'
-import { ExceptionStatusType } from 'antd/lib/result'
 
 const statusMap = {
   403: {
