@@ -16,7 +16,12 @@ public interface SeatsByClassRepository extends JpaRepository<SeatsByClass, Long
 
     Page<SeatsByClass> findByAircraftType_IdOrTravelClass_Id(Long aircraft_type_id, Long travelclass_id, Pageable pageable);
 
+    Optional<SeatsByClass> findByAircraftType_IdAndTravelClass_Id(Long aircraft_type_id, Long travelclass_id);
+
+    Optional<SeatsByClass> findByAircraftType_IdAndTravelClass_IdAndIdNot(Long aircraft_type_id, Long travelclass_id, Long id);
+
     List<SeatsByClass> findByAircraftType_Id(Long id);
 
     void deleteAllByAircraftType(AircraftType aircraftType);
+
 }

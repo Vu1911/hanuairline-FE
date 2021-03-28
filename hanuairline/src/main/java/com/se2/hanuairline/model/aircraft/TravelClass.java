@@ -1,5 +1,6 @@
 package com.se2.hanuairline.model.aircraft;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.se2.hanuairline.model.PriceByClass;
 
 import javax.persistence.*;
@@ -28,12 +29,15 @@ public class TravelClass implements Cloneable {
     @Column(length = 1000)
     private String description;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "travelClass")
     private Set<SeatsByClass> seatsByClassSet;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "travelClass")
     private Set<AircraftSeat> aircraftSeatSet;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "travelClass")
     private Set<PriceByClass> priceByClasses;
 

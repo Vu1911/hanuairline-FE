@@ -56,6 +56,11 @@ public class SeatsByClassService {
     public SeatsByClass createSeatsByClass(SeatsByClassPayLoad request) throws InvalidInputValueException {
         AircraftType aircraftTypeData = aircraftTypeService.getAircraftTypeById(request.getAircraftType_id());
         TravelClass travelClassData = travelClassService.getRecordById(request.getTravelClass_id());
+        Optional<SeatsByClass> seatsByClassData = seatsByClassRepository.findByAircraftType_IdAndTravelClass_Id(request.getAircraftType_id(),request.getTravelClass_id());
+
+        if(seatsByClassData.isPresent()){
+            return null;
+        }
 
         if(aircraftTypeData == null){
             return null;
@@ -66,6 +71,10 @@ public class SeatsByClassService {
         }
 
         SeatsByClass seatsByClass = new SeatsByClass();
+        seatsByClass.setRowQuantity(request.getRows_quantity());
+        seatsByClass.setQuantity(request.getQuantity());
+        seatsByClass.setTravelClass(travelClassData);
+        seatsByClass.setAircraftType(aircraftTypeData);
 
         SeatsByClass _seatsByClass = seatsByClassRepository.save(seatsByClass);
 
@@ -73,9 +82,14 @@ public class SeatsByClassService {
     }
 
     public SeatsByClass updateSeatsByClass(long id, SeatsByClassPayLoad request) throws InvalidInputValueException {
-        Optional<SeatsByClass> seatsByClassData = seatsByClassRepository.findById(request.getId());
+        Optional<SeatsByClass> seatsByClassData = seatsByClassRepository.findById(id);
         AircraftType aircraftType = aircraftTypeService.getAircraftTypeById(request.getAircraftType_id());
         TravelClass travelClass = travelClassService.getRecordById(request.getTravelClass_id());
+        Optional<SeatsByClass> seatsByClass1 = seatsByClassRepository.findByAircraftType_IdAndTravelClass_IdAndIdNot(request.getAircraftType_id(),request.getTravelClass_id(), id);
+
+        if(seatsByClass1.isPresent()){
+            return null;
+        }
 
         if(!seatsByClassData.isPresent()){
             return null;

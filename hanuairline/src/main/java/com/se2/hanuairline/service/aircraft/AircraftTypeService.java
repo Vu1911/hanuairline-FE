@@ -2,6 +2,7 @@ package com.se2.hanuairline.service.aircraft;
 
 import com.se2.hanuairline.model.aircraft.Aircraft;
 import com.se2.hanuairline.model.aircraft.AircraftType;
+import com.se2.hanuairline.payload.aircraft.AircraftTypePayload;
 import com.se2.hanuairline.repository.aircraft.AircraftTypeRepository;
 import com.se2.hanuairline.util.PaginationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,9 +46,14 @@ public class AircraftTypeService {
         }
     }
 
-    public AircraftType creatAircraftType(AircraftType request){
+    public AircraftType creatAircraftType(AircraftTypePayload request){
         try {
-            AircraftType clone = (AircraftType) request.clone();
+            AircraftType clone = new AircraftType();
+            clone.setName(request.getName());
+            clone.setAverageVelocity(request.getAverage_velocity());
+            clone.setLuggageCapacityKg(request.getLugage_capacity_kg());
+            clone.setSeatCapacity(clone.getSeatCapacity());
+
             AircraftType _aircraftType = aircraftTypeRepository
                     .save(clone);
             return _aircraftType;

@@ -14,9 +14,6 @@ import javax.validation.constraints.Size;
 import java.util.Set;
 
 public class AircraftTypePayload {
-    @Id
-    private Long id;
-
     @NotBlank
     @NotNull(message = "Please provide aircraft name")
     @Size(max = 40)
@@ -34,20 +31,11 @@ public class AircraftTypePayload {
     @NotNull
     private int average_velocity;
 
-    public AircraftTypePayload(Long id, @NotBlank @Size(max = 40) String name, @NotBlank @NotNull int seat_capacity, @NotBlank @NotNull int lugage_capacity_kg, @NotBlank @NotNull int average_velocity) {
-        this.id = id;
+    public AircraftTypePayload(@NotBlank @Size(max = 40) String name, @NotBlank @NotNull int seat_capacity, @NotBlank @NotNull int lugage_capacity_kg, @NotBlank @NotNull int average_velocity) {
         this.name = name;
         this.seat_capacity = seat_capacity;
         this.lugage_capacity_kg = lugage_capacity_kg;
         this.average_velocity = average_velocity;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {

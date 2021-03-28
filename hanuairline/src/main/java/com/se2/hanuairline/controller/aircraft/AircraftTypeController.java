@@ -1,6 +1,7 @@
 package com.se2.hanuairline.controller.aircraft;
 
 import com.se2.hanuairline.model.aircraft.AircraftType;
+import com.se2.hanuairline.payload.aircraft.AircraftTypePayload;
 import com.se2.hanuairline.service.aircraft.AircraftTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -47,7 +48,7 @@ public class AircraftTypeController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createAircraftType(@Valid @RequestBody AircraftType aircraftType) {
+    public ResponseEntity<?> createAircraftType(@Valid @RequestBody AircraftTypePayload aircraftType) {
         AircraftType newAircraftType = aircraftTypeService.creatAircraftType(aircraftType);
 
         if(newAircraftType != null){

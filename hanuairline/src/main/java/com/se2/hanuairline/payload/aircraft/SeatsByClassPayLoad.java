@@ -11,7 +11,6 @@ public class SeatsByClassPayLoad {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     private Long travelClass_id;
 
@@ -25,13 +24,6 @@ public class SeatsByClassPayLoad {
     @NotNull
     private int rows_quantity;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getTravelClass_id() {
         return travelClass_id;

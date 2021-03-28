@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/seatsByClass")
 public class SeatsByClassController {
@@ -51,7 +53,7 @@ public class SeatsByClassController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createSeatsByClass(@RequestBody SeatsByClassPayLoad request) {
+    public ResponseEntity<?> createSeatsByClass(@Valid @RequestBody SeatsByClassPayLoad request) {
         try {
             SeatsByClass seatsByClass = seatsByClassService.createSeatsByClass(request);
 
@@ -67,7 +69,7 @@ public class SeatsByClassController {
     }
 
     @PutMapping("/updateById/{id}")
-    public ResponseEntity<?> updateSeatsByClass(@PathVariable("id") long id, @RequestBody SeatsByClassPayLoad request) {
+    public ResponseEntity<?> updateSeatsByClass(@PathVariable("id") long id, @Valid @RequestBody SeatsByClassPayLoad request) {
         try {
             SeatsByClass seatsByClass = seatsByClassService.updateSeatsByClass(id, request);
 

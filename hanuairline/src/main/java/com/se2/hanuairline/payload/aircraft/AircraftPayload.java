@@ -12,10 +12,6 @@ import javax.validation.constraints.Size;
 import java.util.Set;
 
 public class AircraftPayload {
-
-    @Id
-    private Long id;
-
     @NotBlank
     @Size(max = 40)
     private String name;
@@ -26,14 +22,6 @@ public class AircraftPayload {
     @NotBlank
     @NotNull
     private String status;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

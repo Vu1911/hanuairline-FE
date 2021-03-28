@@ -1,5 +1,6 @@
 package com.se2.hanuairline.model.aircraft;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.se2.hanuairline.model.audit.DateAudit;
 
 import javax.persistence.*;
@@ -22,6 +23,7 @@ public class AircraftType extends DateAudit implements Cloneable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "aircraftType")
     private Set<Aircraft> aircraft;
 
@@ -38,6 +40,7 @@ public class AircraftType extends DateAudit implements Cloneable{
     @NotNull
     private int averageVelocity;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "aircraftType")
     private Set<SeatsByClass> seatsByClassSet;
 
