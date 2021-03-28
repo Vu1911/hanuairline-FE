@@ -5,7 +5,7 @@ import MainEntry from '../views/home/main'
 import Ticket from '../views/home/ticket/index'
 import TicketCreate from '../views/home/ticket/create'
 import TicketDetail from '../views/home/ticket/detail'
-import Login from '../views/home/login'
+import Login from '../views/login'
 import NoMatch from '../views/exception/no-match'
 
 const routesMap = [
