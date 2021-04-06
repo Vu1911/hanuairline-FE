@@ -22,6 +22,7 @@ Deploy link: https://hanuairline.azurewebsites.net/{api_service_name}...
 
 * note for using database:
 - connect this with workbench to view the structure of the database, or check the data, etc...
+
 Database:
 - servername: hanuairlineserver.mysql.database.azure.com
 - username: hanuadmin@hanuairlineserver
