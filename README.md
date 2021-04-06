@@ -2,11 +2,14 @@
 SE2 project
 This repo is used only for the purpose of connecting info of two repos:
 - Repo for backend: https://github.com/Vu1911/hanuairline.git
-- Repo for frontend: 
+- Repo for frontend: https://github.com/NghiemKyoushi/Hanu_airline_fe.git
+
+# GENERAL
+
+Link for clickup - workingspace: https://share.clickup.com/b/h/6-22503097-2/18e422f24500083
 
 # FRONTEND
 
-Link for clickup - workingspace: https://share.clickup.com/b/h/6-22503097-2/18e422f24500083
 Link for figma - morkup: https://www.figma.com/file/AvtwS7B8KBO3yI6fiQ5LTU/HanuAirline?node-id=0%3A1
 
 # BACKEND
